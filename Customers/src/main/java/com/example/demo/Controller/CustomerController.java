@@ -5,17 +5,24 @@
  */
 package com.example.demo.Controller;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.example.demo.Model.Customer;
 import com.example.demo.Model.CustomerDTO;
 import com.example.demo.Repository.CustomerRepository;
+import java.io.IOException;
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import static javax.swing.UIManager.get;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -62,7 +69,7 @@ public class CustomerController {
         }
 
     }
-    
+
     @PostMapping("/update-customer")
     @ResponseBody
     public ResponseEntity<Customer> updateCustomer(@RequestBody CustomerDTO customerDTO) throws ParseException {
@@ -71,27 +78,45 @@ public class CustomerController {
             Customer addCustomer = new Customer(customerDTO);
             customerRepository.save(addCustomer);
             return ResponseEntity.ok(addCustomer);
-            
+
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
     }
-    
-    @DeleteMapping("/delete-customer")
+
+    @PostMapping("/update-customer/img")
     @ResponseBody
-    public ResponseEntity<Customer> deleteCustomer(@RequestParam Integer id){
+    public ResponseEntity<String> updateImgCustomer(@RequestParam("img") MultipartFile img,
+            @RequestParam Integer id) {
+
         Optional<Customer> customer = customerRepository.findById(id);
         if (customer.isPresent()) {
-            customerRepository.deleteById(id);
-            return ResponseEntity.ok(customer.get());
-            
-        } else {
+            try {
+                Map<String, String> config = new HashMap<>();
+                config.put("cloud_name", "dne2tjjym");
+                config.put("api_key", "871314462855254");
+                config.put("api_secret", "m_8hFHYWag6pdETWKh4_rhCkBTg");
+                Cloudinary cloudinary = new Cloudinary(config);
+
+                String url = (String) cloudinary.uploader().upload(img.getBytes(), ObjectUtils.asMap(
+                        "folder", "customers",
+                        "public_id", "customer_" + id)).get("url");
+                customer.get().setImg(url);
+                customerRepository.save(customer.get());
+                return ResponseEntity.ok("ok");
+
+            } catch (Exception e) {
+                System.out.println(e);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading file: " + e.getMessage());
+            }
+        }
+        else{
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
     }
-    
+
     @GetMapping("/search-customer")
     @ResponseBody
     public ResponseEntity<List<Customer>> searchByKeyword(@RequestParam String keyword) {

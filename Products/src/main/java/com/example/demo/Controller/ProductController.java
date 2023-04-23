@@ -9,8 +9,10 @@ import com.example.demo.Model.Product;
 import com.example.demo.Model.ProductRequest;
 import com.example.demo.Repository.ProductRepository;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,6 +27,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 
 /**
  *
@@ -80,6 +85,38 @@ public class ProductController {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+    }
+    
+    @PostMapping("/update-product/img")
+    @ResponseBody
+    public ResponseEntity<String> updateImgCustomer(@RequestParam("img") MultipartFile img,
+            @RequestParam Integer id) {
+
+        Optional<Product> product = productRepository.findById(id);
+        if (product.isPresent()) {
+            try {
+                Map<String, String> config = new HashMap<>();
+                config.put("cloud_name", "dne2tjjym");
+                config.put("api_key", "871314462855254");
+                config.put("api_secret", "m_8hFHYWag6pdETWKh4_rhCkBTg");
+                Cloudinary cloudinary = new Cloudinary(config);
+
+                String url = (String) cloudinary.uploader().upload(img.getBytes(), ObjectUtils.asMap(
+                        "folder", "products",
+                        "public_id", "product_" + id)).get("url");
+                product.get().setImg(url);
+                productRepository.save(product.get());
+                return ResponseEntity.ok("ok");
+
+            } catch (Exception e) {
+                System.out.println(e);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading file: " + e.getMessage());
+            }
+        }
+        else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
     }
 
     @DeleteMapping("/delete-product")
