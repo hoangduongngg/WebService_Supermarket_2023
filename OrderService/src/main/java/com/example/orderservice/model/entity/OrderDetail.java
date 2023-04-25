@@ -23,10 +23,10 @@ public class OrderDetail {
     @Column(name = "price")
     private Float price;
 
-    @Column(name = "tblProductid")
+    @Column(name = "tbl_productid")
     private Integer tblProductid;
 
-    @Column(name = "tblOrderid")
+    @Column(name = "tbl_orderid")
     private Integer tblOrderid;
 
 }
