@@ -7,7 +7,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-
 @Getter
 @Setter
 @AllArgsConstructor
@@ -20,37 +19,36 @@ public class Order {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "paymentType")
+    @Column(name = "payment_type")
     private String paymentType;
 
-    @Column(name = "orderDate")
+    @Column(name = "order_date")
     private LocalDate orderDate;
 
-    @Column(name = "paymentDate")
+    @Column(name = "payment_date")
     private LocalDate paymentDate;
 
-    @Column(name = "cancelDate")
+    @Column(name = "cancel_date")
     private LocalDate cancelDate;
 
-    @Column(name = "deliveryDate")
+    @Column(name = "delivery_date")
     private LocalDate deliveryDate;
 
-    @Column(name = "reasonCancel")
+    @Column(name = "reason_cancel")
     private String reasonCancel;
 
-    @Column(name = "statusDelivery")
+    @Column(name = "status_delivery")
     private String statusDelivery;
 
-    @Column(name = "statusOrder")
+    @Column(name = "status_order")
     private String statusOrder;
 
     @Column(name = "note")
     private String note;
 
-    @Column(name = "tblCustomerid")
+    @Column(name = "tbl_customerid")
     private Integer tblCustomerid;
 
-    @Column(name = "tblShipperid")
+    @Column(name = "tbl_shipperid")
     private Integer tblShipperid;
-
 }
