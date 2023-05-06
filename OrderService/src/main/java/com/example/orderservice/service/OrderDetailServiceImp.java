@@ -47,4 +47,42 @@ public class OrderDetailServiceImp implements OrderDetailService{
 
         return orderDetailRepository.findByTblOrderid(order.getId());
     }
+
+    @Override
+    public Boolean SetQuantityProductInCart(Integer productID, Integer customerID, String action) {
+        Order order = orderService.getCartByCustomerId(customerID);
+        Optional<OrderDetail> list_od = orderDetailRepository.
+                findByTblOrderidAndTblProductid(order.getId(), productID);
+
+        try {
+            OrderDetail od = list_od.get();
+            switch (action){
+                case "inc": od.setQuantity(od.getQuantity() +1);
+                    break;
+                case "red": od.setQuantity(od.getQuantity() -1 );
+                    break;
+                case "delete": od.setQuantity(0);
+                    break;
+            }
+            return true;
+        }
+        catch (Exception e) {
+            return false;
+        }
+
+    }
+
+//    @Override
+//    public Float statiticCustomer(Integer customerID) {
+//        List<Order> list_Order = orderRepository.findByTblCustomerid(customerID);
+//
+//        Float res = 0f;
+//        for (int i=0; i<list_Order.size(); i++) {
+//            res += list_Order.get(i).getTotalAmount();
+//        }
+//
+//        return res;
+//    }
+
+
 }

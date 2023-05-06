@@ -9,6 +9,7 @@ import com.example.orderservice.service.OrderService;
 import com.example.orderservice.service.OrderServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,17 +17,17 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("cart")
+@RequestMapping(value = "/api/cart", produces = MediaType.APPLICATION_JSON_VALUE)
 @CrossOrigin("*")
 
 public class CartController {
     @Autowired
     private OrderService orderService;
-    @Autowired
 
+    @Autowired
     private OrderDetailRepository orderDetailRepository;
-    @Autowired
 
+    @Autowired
     private OrderDetailService orderDetailService;
 
     //Get Cart -> Load trang Gio hang
@@ -58,15 +59,17 @@ public class CartController {
         }
     }
 
-    @PostMapping("/inc")
-    public ResponseEntity<List<OrderDetail>> incProductInCart (@RequestParam("productID") Integer productID,
-                              @RequestParam("customerID") Integer customerID) {
+    @PostMapping("/setQuantity")
+    public ResponseEntity<Boolean> SetQuantityProductInCart (
+            @RequestParam("productID") Integer productID,
+            @RequestParam("customerID") Integer customerID,
+            @RequestParam ("action") String action) {
 
-        List <OrderDetail> list_od = orderDetailRepository.findByTblOrderid(1);
-        if (list_od == null) {
+        ;
+        if (orderDetailService.SetQuantityProductInCart(productID, customerID, action) == false) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } else {
-            return ResponseEntity.status(HttpStatus.OK).body(list_od);
+            return ResponseEntity.status(HttpStatus.OK).body(true);
         }
     }
 }

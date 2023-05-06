@@ -1,12 +1,11 @@
 package com.example.orderservice.model.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -15,7 +14,9 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "tblorder")
 public class Order {
+    private static final long serialVersionUID = 100000000000002L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
@@ -48,7 +49,12 @@ public class Order {
 
     @Column(name = "tbl_customerid")
     private Integer tblCustomerid;
-
     @Column(name = "tbl_shipperid")
     private Integer tblShipperid;
+
+//    private Float totalAmount;
+//    @OneToMany(mappedBy = "tbl_orderdetailid")
+//    private List<OrderDetail> details;
+
+
 }

@@ -10,4 +10,5 @@ import java.util.Optional;
 @Service
 public interface OrderService {
     Order getCartByCustomerId (Integer id);
+//    Order SetTotalAmount (Order order);
 }

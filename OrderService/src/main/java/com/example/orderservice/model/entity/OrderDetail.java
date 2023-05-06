@@ -13,7 +13,9 @@ import javax.persistence.*;
 @Entity
 @Table(name = "tblorderdetail")
 public class OrderDetail {
+    private static final long serialVersionUID = 100000000000002L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
