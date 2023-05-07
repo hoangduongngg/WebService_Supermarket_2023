@@ -1,38 +1,59 @@
 package microservice.controller;
 
-
-import microservice.chain.ImportGoods;
-import microservice.chain.ImportGoodsChain;
+import microservice.controller.chain.SupplierDeleter;
+import microservice.controller.chain.ProductImporter;
 import microservice.model.ImportBill;
-import microservice.service.ImportBillDetailService;
-import microservice.service.ImportBillService;
-import microservice.service.ProductService;
+import microservice.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class WarehouseFacade {
-    private ImportGoods productService;
-    private ImportGoods importBillService;
-    private ImportGoods importBillDetailService;
-    private ImportGoodsChain importGoodsChains;
+    // Chains
+    private ProductImporter productImporter;
+    private SupplierDeleter supplierDeleter;
+
+    // Services
+    private AbsService productService;
+    private AbsService supplierService;
+    private AbsService importBillService;
+    private AbsService importBillDetailService;
 
     @Autowired
-    public WarehouseFacade(ProductService productService, ImportBillService importBillService, ImportBillDetailService importBillDetailService) {
+    public WarehouseFacade(
+            ProductService productService,
+            SupplierService supplierService,
+            ImportBillService importBillService,
+            ImportDetailService importDetailService) {
         this.productService = productService;
+        this.supplierService = supplierService;
         this.importBillService = importBillService;
-        this.importBillDetailService = importBillDetailService;
+        this.importBillDetailService = importDetailService;
+
+        initChains();
+    }
+    private void initChains(){
+        // Import products chain
+        ProductImporter importBillCreator = new ProductImporter(importBillService);
+        ProductImporter detailsCreator = new ProductImporter(importBillDetailService);
+        ProductImporter productImporter = new ProductImporter(productService);
+
+        this.productImporter = importBillCreator;
+        importBillCreator.setNextChain(detailsCreator);
+        detailsCreator.setNextChain(productImporter);
+
+        // Delete supplier chain
+        SupplierDeleter deleteImportBillDetails = new SupplierDeleter(importBillDetailService);
+        SupplierDeleter deleteImportBill = new SupplierDeleter(importBillService);
+        SupplierDeleter supplierChain = new SupplierDeleter(supplierService);
+        supplierDeleter = deleteImportBillDetails;
+        deleteImportBillDetails.setNextChain(deleteImportBill);
+        deleteImportBill.setNextChain(supplierChain);
     }
     public boolean doImportGoodsChaining(ImportBill importBill){
-        if (importGoodsChains == null){
-            ImportGoodsChain productImporter = new ImportGoodsChain(productService);
-            ImportGoodsChain importBillCreator = new ImportGoodsChain(importBillService);
-            ImportGoodsChain detailCreator = new ImportGoodsChain(importBillDetailService);
-
-            productImporter.setNextChain(importBillCreator);
-            importBillCreator.setNextChain(detailCreator);
-            importGoodsChains = productImporter;
-        }
-        return importGoodsChains.importGoods(importBill);
+        return productImporter.doChaining(importBill);
+    }
+    public boolean doDeleteSupplierChaining(Long supplierId){
+        return supplierDeleter.doChaining(supplierId);
     }
 }

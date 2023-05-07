@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Supplier Management</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="../../../../static/css/tmp12.css"
+          th:href="@{/css/tmp12.css}"/>
+</head>
+<body>
+<div class="navbar-cover">
+    <nav class="navbar">
+        <a class="navbar-brand" href="#">Supermarket</a>
+
+        <button class="button logout">Logout</button>
+    </nav>
+</div>
+<div class="search-bar">
+    <form action="" method="get">
+        <input type="search"
+               placeholder="Search..."
+               name="searchKey"
+               th:value="${searchKey}"
+        >
+        <button type="submit">Search</button>
+    </form>
+</div>
+<div class="container">
+    <ul class="responsive-table">
+        <li class="table-header">
+            <div class="col col-1">Id</div>
+            <div class="col col-2">Name</div>
+            <div class="col col-3">Phone Number</div>
+            <div class="col col-4">Action</div>
+        </li>
+        <li class="table-row" th:each="supplier : ${suppliers}">
+            <div class="col col-1">
+                <span th:utext="${supplier.id}"></span>
+            </div>
+            <div class="col col-2">
+                <a th:href="@{/warehouse/management/supplier/edit/{id}(id = ${supplier.id})}" th:utext="${supplier.name}"></a>
+            </div>
+            <div class="col col-3">
+                <span th:utext="${supplier.phoneNumber}"></span>
+            </div>
+            <div class="col col-4">
+                <form
+                        style="
+                            margin: 0;
+                            display: inline-block;
+                            width: fit-content;"
+                        th:action="@{/warehouse/management/supplier/delete/{id}(id = ${supplier.id})}" method="post">
+                    <button class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

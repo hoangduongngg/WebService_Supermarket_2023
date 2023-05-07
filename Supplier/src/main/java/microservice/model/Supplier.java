@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 @Data
 @RequiredArgsConstructor
 public class Supplier {
-    private static final long serialVersionUID = 100000000000000L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-
 @RestController
 @RequestMapping(value = "/api/warehouse", produces = MediaType.APPLICATION_JSON_VALUE)
 @CrossOrigin(origins = "*")
@@ -19,9 +18,12 @@ public class WarehouseRestController {
 
     @PostMapping(value = "/import", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public int importGoods(@RequestBody ImportBill importBill){//@RequestBody String json){
-//        System.out.println(json);
-//        return 1;
+    public int importGoods(@RequestBody ImportBill importBill){
         return warehouseFacade.doImportGoodsChaining(importBill)? 1:0;
+    }
+    @PostMapping(value = "/delete-supplier", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
+    public int deleteSupplier(@RequestBody Long data){
+        return warehouseFacade.doDeleteSupplierChaining(data)?1:0;
     }
 }

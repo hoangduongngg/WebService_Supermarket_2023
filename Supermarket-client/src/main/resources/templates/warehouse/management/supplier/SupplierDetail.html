@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Supplier Information</title>
+    <link rel="stylesheet"
+      href="../../../../static/css/tmp13.css"
+      th:href="@{/css/tmp13.css}"/>
+</head>
+<body>
+
+<div class="navbar-cover">
+    <nav class="navbar">
+        <a class="navbar-brand" href="#">Supermarket</a>
+
+        <button class="button logout">Logout</button>
+    </nav>
+</div>
+<h1 th:if="${supplier == null}">
+    New supplier
+</h1>
+<h1 th:if="${supplier != null}">
+    Edit supplier information
+</h1>
+<div class="menu-cover">
+    <form th:action="@{../save}" method="post" th:object="${supplier}">
+        <label>ID:</label>
+        <input readonly th:field="${supplier.id}">
+        <label>Name:</label>
+        <input th:field="${supplier.name}">
+        <label>Telephone:</label>
+        <input th:field="${supplier.phoneNumber}">
+        <label>Description:</label>
+        <textarea th:field="${supplier.description}"></textarea>
+        <button>Submit</button>
+    </form>
+</div>
+</body>
+</html>
