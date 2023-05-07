@@ -4,7 +4,9 @@ import com.example.client_ws_supermarket.model.Product;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -29,6 +31,13 @@ public class HomeController {
 
 
 
+    }
+
+    @PostMapping ("/")
+    public String search_home (Model model, @RequestParam String txtSearch) {
+        System.out.println(txtSearch);
+        model.addAttribute("txtSearch", txtSearch);
+        return home_customer(model);
     }
 
     private String home_customer (Model model) {

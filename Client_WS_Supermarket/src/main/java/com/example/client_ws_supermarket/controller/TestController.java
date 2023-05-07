@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @Controller
-@RequestMapping("")
+@RequestMapping("test")
 public class TestController {
-    @GetMapping("/test")
+    @GetMapping("")
     public String test_home () {
         return "test";
     }
