@@ -13,16 +13,7 @@ import jakarta.persistence.*;
  */
 @Entity
 @Table(name = "product")
-@NamedQueries({
-    @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p"),
-    @NamedQuery(name = "Product.findById", query = "SELECT p FROM Product p WHERE p.id = :id"),
-    @NamedQuery(name = "Product.findByName", query = "SELECT p FROM Product p WHERE p.name = :name"),
-    @NamedQuery(name = "Product.findByImg", query = "SELECT p FROM Product p WHERE p.img = :img"),
-    @NamedQuery(name = "Product.findByPrice", query = "SELECT p FROM Product p WHERE p.price = :price"),
-    @NamedQuery(name = "Product.findByUnits", query = "SELECT p FROM Product p WHERE p.units = :units"),
-    @NamedQuery(name = "Product.findByDescription", query = "SELECT p FROM Product p WHERE p.description = :description"),
-    @NamedQuery(name = "Product.findByExpirationDate", query = "SELECT p FROM Product p WHERE p.expirationDate = :expirationDate"),
-    @NamedQuery(name = "Product.findByIdSupplier", query = "SELECT p FROM Product p WHERE p.idSupplier = :idSupplier")})
+
 public class Product implements Serializable {
 
     private static final long serialVersionUID = 1L;

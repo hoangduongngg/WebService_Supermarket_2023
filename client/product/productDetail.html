@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Web E-commerce Java</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
+    <!------ Include the above in your HEAD tag ---------->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+</head>
+
+<body onload="show()">
+    <h1 style="text-align: center;">Product Detail</h1>
+    <div class="container" style="justify-content: space-between;">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="row">
+                            <aside class="col-sm-5 border-right">
+                                <article class="gallery-wrap">
+                                    <div class="img-small-wrap">
+                                        <div>
+                                            <a href="#">
+                                                <img id="img" src="" style="width:100%;">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </article>
+                            </aside>
+                            <aside class="col-sm-7" >
+                                <article class="card-body p-5">
+                                    <h3 id="name" class="title mb-3">
+                                        name
+                                    </h3>
+
+                                    <p class="price-detail-wrap">
+                                        <span class="price h3 text-warning">
+                                            <a id="price" class="num" style="color:#2b6054">
+                                                price
+                                            </a>
+                                        </span>
+                                    </p>
+                                    <dl class="item-property">
+                                        <dt>Description</dt>
+                                        <dd>
+                                            <p id="description">description</p>
+                                        </dd>
+                                    </dl>
+
+                                    <hr>
+                                    <a class="btn btn-sm btn-outline-primary text-uppercase"
+                                        style="background-color: #2b6054 ; color: white; ">
+                                        Add to cart </a>
+                                </article> 
+                            </aside> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script src="product.js"></script>
+
+</html>

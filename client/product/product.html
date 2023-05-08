@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+    <link href="product.css" rel="stylesheet">
+</head>
+
+<body onload="onload()">
+    <div class="container">
+        <div>
+            <h1>
+                Homepage
+            </h1>
+        </div>
+
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search by name">
+            <button onclick="search() ">
+                Search
+            </button>
+            <div>
+                <button onclick="togglePriceInputs()">Add Price Range</button>
+                <div id="priceInputs" style="display: none;">
+                    <input class="price" type="number" id="minPriceInput" placeholder="Minimum price">
+                    <input class="price" type="number" id="maxPriceInput" placeholder="Maximum price">
+                </div>
+            </div>
+
+        </div>
+
+
+
+        <div id="cards" class="cards">
+            <!-- <div class="card">
+                <img id="img-product" src="" alt="Denim Jeans" style="width:100%">
+                <h1 id="name">Tailored Jeans</h1>
+                <p id="price" class="price">$19.99</p>
+                <button onclick="">Add to Cart</button>
+            </div> -->
+        </div>
+
+    </div>
+
+</body>
+<script src="product.js"></script>
+
+</html>

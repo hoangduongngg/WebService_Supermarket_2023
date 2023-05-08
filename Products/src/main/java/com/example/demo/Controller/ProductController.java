@@ -30,11 +30,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 /**
  *
  * @author ben
  */
+@CrossOrigin
 @RestController
 public class ProductController {
 
@@ -86,10 +88,11 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
-    
+
+    @CrossOrigin(origins = "http://localhost:8082")
     @PostMapping("/update-product/img")
     @ResponseBody
-    public ResponseEntity<String> updateImgCustomer(@RequestParam("img") MultipartFile img,
+    public ResponseEntity<String> updateImgProduct(@RequestParam("img") MultipartFile img,
             @RequestParam Integer id) {
 
         Optional<Product> product = productRepository.findById(id);
@@ -112,8 +115,7 @@ public class ProductController {
                 System.out.println(e);
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading file: " + e.getMessage());
             }
-        }
-        else{
+        } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
@@ -133,30 +135,27 @@ public class ProductController {
 
     @GetMapping("/search-product")
     @ResponseBody
-    public List<Product> searchProductByName(   @RequestParam String keyword,
-                                                @RequestParam Integer minPrice,
-                                                @RequestParam Integer maxPrice) {
-        
+    public List<Product> searchProduct(@RequestParam String keyword,
+            @RequestParam Integer minPrice,
+            @RequestParam Integer maxPrice) {
+
         if (minPrice < 0) {
             minPrice = 0;
         }
-        if(maxPrice <= 0){
-            if(keyword == null){
+        if (maxPrice <= 0) {
+            if (keyword == null) {
                 return productRepository.findByPriceGreaterThan(minPrice);
-            }
-            else{
+            } else {
                 return productRepository.findByNameContainingIgnoreCaseAndPriceGreaterThan(keyword, minPrice);
             }
-        }
-        else{
-            if(keyword == null){
+        } else {
+            if (keyword == null) {
                 return productRepository.findByPriceBetween(minPrice, maxPrice);
-            }
-            else{
-                return productRepository.findByNameContainingIgnoreCaseAndPriceBetween(keyword, minPrice,maxPrice);
+            } else {
+                return productRepository.findByNameContainingIgnoreCaseAndPriceBetween(keyword, minPrice, maxPrice);
             }
         }
-        
+
     }
 
 }

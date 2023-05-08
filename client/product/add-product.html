@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add product</title>
+    <link href="addProduct.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Add product</h1>
+        <div class="add-product">
+            <div class="column">
+                <div class="field-input field-name" style="margin-right: 15px;">
+                    <label>Product name</label>
+                    <input id="name" class="input" type="text" required>
+                </div>
+                <div class="field-input field-price">
+                    <label>Price</label>
+                    <input id="price" class="input" type="number" required>
+                </div>
+            </div>
+
+            <div class="column">
+                <div class="field-input feild-unit" style="margin-right: 15px;">
+                    <label>Number in stock</label>
+                    <input id="units" class="input" type="text" required>
+                </div>
+                <div class="field-input feild-exp">
+                    <label>Expiration date</label>
+                    <input id="exp" class="input" type="text" required>
+                </div>
+            </div>
+            
+            <div class="field-input feild-description">
+                <label>Description</label>
+                <textarea id="decription" class="input"></textarea>
+            </div>
+            
+            <input type="file" id="file-input" class="custom-file-input" name="fileUpload" accept="image/*">
+            <div>
+                <input class="submit" type="button" value="Submit" onclick="addProduct()">
+            </div>
+
+        </div>
+    </div>
+
+</body>
+<script src="product.js"></script>
+</html>

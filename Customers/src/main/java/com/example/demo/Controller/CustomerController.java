@@ -28,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
  *
  * @author ben
  */
+@CrossOrigin
 @RestController
 public class CustomerController {
 
@@ -59,6 +60,7 @@ public class CustomerController {
     @PostMapping("/add-customer")
     @ResponseBody
     public ResponseEntity<Customer> addCustomer(@RequestBody CustomerDTO customerDTO) throws ParseException {
+        System.out.println(customerDTO.phoneNumber);
         Optional<Customer> customer = customerRepository.findByPhoneNumber(customerDTO.phoneNumber);
         if (customer.isPresent()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
@@ -126,6 +128,20 @@ public class CustomerController {
         } else {
             return ResponseEntity.ok(listCustomer);
         }
+    }
+    
+    @DeleteMapping("/delete-customer")
+    @ResponseBody
+    public ResponseEntity<?> deleteCustomer(@RequestParam int id){
+        Optional<Customer> customer = customerRepository.findById(id);
+        if(customer.isPresent()){
+            customerRepository.deleteById(id);
+            return ResponseEntity.ok(customer.get());
+        }
+        else{
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+        
     }
 
 }

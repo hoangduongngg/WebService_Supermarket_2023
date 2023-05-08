@@ -72,7 +72,7 @@ public class Customer implements Serializable {
         this.email = customerDTO.email;
         this.phoneNumber = customerDTO.phoneNumber;
         this.img = customerDTO.img;
-        this.birthday = new SimpleDateFormat("dd/MM/yyyy").parse(customerDTO.birthday);
+        this.birthday = new SimpleDateFormat("yyyy-MM-dd").parse(customerDTO.birthday);
     }
 
     public Integer getId() {
