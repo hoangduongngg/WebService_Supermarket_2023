@@ -28,9 +28,6 @@ public class HomeController {
         else {
             return home_customer(model);
         }
-
-
-
     }
 
     @PostMapping ("/")
