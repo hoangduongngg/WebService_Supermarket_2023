@@ -14,34 +14,34 @@
         <h1>Add product</h1>
         <div class="add-product">
             <div class="column">
-                <div class="field-input field-name" style="margin-right: 15px;">
+                <div class="field-input field-name">
                     <label>Product name</label>
                     <input id="name" class="input" type="text" required>
                 </div>
-                <div class="field-input field-price">
+                <div class="field-input field-price" >
                     <label>Price</label>
-                    <input id="price" class="input" type="number" required>
+                    <input id="price" class="input" type="number" required >
                 </div>
             </div>
 
             <div class="column">
-                <div class="field-input feild-unit" style="margin-right: 15px;">
+                <div class="field-input feild-unit" >
                     <label>Number in stock</label>
-                    <input id="units" class="input" type="text" required>
+                    <input id="units" class="input" type="number" required >
                 </div>
-                <div class="field-input feild-exp">
+                <div class="field-input feild-exp" >
                     <label>Expiration date</label>
-                    <input id="exp" class="input" type="text" required>
+                    <input id="exp" class="input" type="text" required >
                 </div>
             </div>
             
-            <div class="field-input feild-description">
+            <div class="field-input feild-description" style=" width: 100%;">
                 <label>Description</label>
                 <textarea id="decription" class="input"></textarea>
             </div>
             
             <input type="file" id="file-input" class="custom-file-input" name="fileUpload" accept="image/*">
-            <div>
+            <div style="padding: 10px;">
                 <input class="submit" type="button" value="Submit" onclick="addProduct()">
             </div>
 

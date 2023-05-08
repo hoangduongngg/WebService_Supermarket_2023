@@ -36,7 +36,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
  *
  * @author ben
  */
-@CrossOrigin
+@CrossOrigin(origins= {"*"}, maxAge = 4800, allowCredentials = "false" )
 @RestController
 public class ProductController {
 
@@ -88,8 +88,7 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
-
-    @CrossOrigin(origins = "http://localhost:8082")
+    
     @PostMapping("/update-product/img")
     @ResponseBody
     public ResponseEntity<String> updateImgProduct(@RequestParam("img") MultipartFile img,
@@ -110,6 +109,44 @@ public class ProductController {
                 product.get().setImg(url);
                 productRepository.save(product.get());
                 return ResponseEntity.ok("ok");
+
+            } catch (Exception e) {
+                System.out.println(e);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading file: " + e.getMessage());
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+    }
+    
+
+    @PostMapping("/add-product-img")
+    @ResponseBody
+    public ResponseEntity<?> addProductImg(@RequestParam("img") MultipartFile img,
+            @RequestParam String name,
+            @RequestParam int price,
+            @RequestParam int units,
+            @RequestParam String expirationDate,
+            @RequestParam String description) {
+
+        Optional<Product> product = productRepository.findByName(name);
+        if (!product.isPresent()) {
+            try {
+                Map<String, String> config = new HashMap<>();
+                config.put("cloud_name", "dne2tjjym");
+                config.put("api_key", "871314462855254");
+                config.put("api_secret", "m_8hFHYWag6pdETWKh4_rhCkBTg");
+                Cloudinary cloudinary = new Cloudinary(config);
+
+                String url = (String) cloudinary.uploader().upload(img.getBytes(), ObjectUtils.asMap(
+                        "folder", "products",
+                        "public_id", name)).get("url");
+                
+                Product newPro = new Product(name, url, price, units, expirationDate, description);
+                
+                productRepository.save(newPro);
+                return ResponseEntity.ok(newPro);
 
             } catch (Exception e) {
                 System.out.println(e);

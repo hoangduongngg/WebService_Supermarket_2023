@@ -109,36 +109,26 @@ async function addProduct() {
     const exp = document.getElementById('exp').value
     const description = document.getElementById('decription').value
 
-    var product = await fetch('http://localhost:8082/add-product', {
+    var formData = new FormData()
+    formData.append('img', img)
+    formData.append('name', name)
+    formData.append('price',price)
+    formData.append('units',units)
+    formData.append('expirationDate', exp)
+    formData.append('description', description)
+
+    var product = await fetch('http://localhost:8082/add-product-img', {
         method: 'POST',
-        body: JSON.stringify({
-            "name": name,
-            "price": price,
-            "img": "https://res.cloudinary.com/dne2tjjym/image/upload/v1683533068/products/istockphoto-1055079680-612x612_u1guwi.jpg",
-            "expirationDate": exp,
-            "description": description,
-            "units": units
-        }),
-        headers: {
-            'Content-Type': 'application/json',
-        }
+        body:formData,
+        
     })
-        .then(response => {
-            return response.json()
-        })
-        .then(data => {
-            var formData = new FormData()
-            formData.append('img', img);
-            formData.append('id', id);
-
-            var response = fetch('http://localhost:8082/upload-image/img', {
-                method: 'POST',
-                body: formData
-            })
-
-            
-        })
-
+    
+    if(product.ok){
+        alert('thành công')
+    }
+    else{
+        alert('thất bại')
+    }
 }
 
 async function updateImg(id, img) {

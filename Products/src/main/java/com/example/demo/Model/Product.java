@@ -59,6 +59,15 @@ public class Product implements Serializable {
         this.expirationDate = expirationDate;
         this.idSupplier = idSupplier;
     }
+    
+    public Product( String name, String img, int price, int units, String expirationDate, String description) {
+        this.name = name;
+        this.img = img;
+        this.price = price;
+        this.units = units;
+        this.expirationDate = expirationDate;
+        this.description = description;
+    }
 
     public Product(ProductRequest productRequest) {
         this.name = productRequest.name;
