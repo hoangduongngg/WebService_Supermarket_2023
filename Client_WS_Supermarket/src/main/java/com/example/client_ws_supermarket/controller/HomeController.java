@@ -1,6 +1,8 @@
 package com.example.client_ws_supermarket.controller;
 
+import com.example.client_ws_supermarket.model.Customer;
 import com.example.client_ws_supermarket.model.Product;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,28 +18,28 @@ import java.util.List;
 @Controller
 @RequestMapping("")
 public class HomeController {
-    private RestTemplate rest = new RestTemplate();
+    protected RestTemplate rest = new RestTemplate();
 
 
     @GetMapping("/")
-    public String home (Model model) {
+    public String home (HttpSession session, Model model) {
         // Kiem tra neu la Admin thi chuyen den trang admin
         if (1==0) {
             return "admin/home";
         }
         else {
-            return home_customer(model);
+            return home_customer(session, model);
         }
     }
 
     @PostMapping ("/")
-    public String search_home (Model model, @RequestParam String txtSearch) {
+    public String search_home (HttpSession session, Model model, @RequestParam String txtSearch) {
         System.out.println(txtSearch);
         model.addAttribute("txtSearch", txtSearch);
-        return home_customer(model);
+        return home_customer(session, model);
     }
 
-    private String home_customer (Model model) {
+    private String home_customer (HttpSession session, Model model) {
 //        List<Product> listP = Arrays.asList(
 //                rest.getForObject("http://localhost:8081//api/product",Product[].class));
 
@@ -55,8 +57,11 @@ public class HomeController {
                 listP.add(p);
         }
 
+        //Add fix cung du lieu -> Test FE
+        Customer customer = new Customer();
+        customer.setId(29);
 
-
+        session.setAttribute("customer", customer);
         model.addAttribute("listP", listP);
         return "customer/home";
     }
