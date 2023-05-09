@@ -1,5 +1,6 @@
 package com.example.orderservice.service;
 
+import com.example.orderservice.model.entity.Customer;
 import com.example.orderservice.model.entity.Order;
 import com.example.orderservice.model.entity.OrderDetail;
 import com.example.orderservice.repository.OrderDetailRepository;
@@ -18,13 +19,13 @@ public class OrderDetailServiceImp implements OrderDetailService{
 
     private OrderDetailRepository orderDetailRepository;
     @Override
-    public List<OrderDetail> addtoCart(Integer productID, Integer customerID) {
+    public List<OrderDetail> addtoCart(Integer productID, Customer customerID) {
         Order order = orderService.getCartByCustomerId(customerID);
 //        Neu chua ton tai Cart thi tao moi
         if (order == null) {
             order = new Order();
             order.setStatusOrder("cart");
-            order.setTblCustomerid(customerID);
+            order.setTblCustomer(customerID);
             orderRepository.save(order);
             order = orderService.getCartByCustomerId(customerID);
         }

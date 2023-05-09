@@ -46,8 +46,9 @@ public class Order {
     @Column(name = "note")
     private String note;
 
-    @Column(name = "tbl_customerid")
-    private Customer tblCustomerid;
+    @ManyToOne
+    @JoinColumn(name = "tbl_customerid")
+    private Customer tblCustomer;
     @Column(name = "tbl_shipperid")
     private Integer tblShipperid;
 
