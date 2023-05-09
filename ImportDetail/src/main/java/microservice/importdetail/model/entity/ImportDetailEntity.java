@@ -11,7 +11,7 @@ import java.sql.Date;
 @Data
 @RequiredArgsConstructor
 @AllArgsConstructor
-@Table(name = "import-detail")
+@Table(name = "import_detail")
 public class ImportDetailEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

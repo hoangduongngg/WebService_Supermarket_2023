@@ -7,8 +7,8 @@ import lombok.RequiredArgsConstructor;
 @Data
 @RequiredArgsConstructor
 public class Supplier {
-    private Long id;
-    private String name;
-    private String description;
-    private String phoneNumber;
+    protected Long id;
+    protected String name;
+    protected String description;
+    protected String phoneNumber;
 }

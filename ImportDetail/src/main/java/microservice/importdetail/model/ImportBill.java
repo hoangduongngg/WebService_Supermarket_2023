@@ -18,4 +18,8 @@ public class ImportBill {
     private WarehouseWorker creator;
     @JsonBackReference
     private List<ImportDetail> details;
+
+    public ImportBill(Long id){
+        this.id = id;
+    }
 }

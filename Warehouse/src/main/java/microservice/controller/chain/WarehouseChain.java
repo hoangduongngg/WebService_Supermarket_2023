@@ -3,7 +3,7 @@ package microservice.controller.chain;
 import microservice.service.AbsService;
 
 public abstract class WarehouseChain
-        <T extends WarehouseChain, S extends AbsService, K>{
+        <T extends WarehouseChain, S, K>{
     protected T nextChain;
     protected S doChainService;
     public WarehouseChain(S doChainService){

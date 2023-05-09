@@ -22,8 +22,14 @@ public class WarehouseRestController {
         return warehouseFacade.doImportGoodsChaining(importBill)? 1:0;
     }
     @PostMapping(value = "/delete-supplier", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
-    public int deleteSupplier(@RequestBody Long data){
-        return warehouseFacade.doDeleteSupplierChaining(data)?1:0;
+    @ResponseStatus(HttpStatus.OK)
+    public int deleteSupplier(@RequestBody Long supplierId){
+        return warehouseFacade.doDeleteSupplierChaining(supplierId)?1:0;
     }
+
+//    @PostMapping(value = "/statistic", consumes = MediaType.APPLICATION_JSON_VALUE)
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public int supplierStatistic(@RequestBody SupplierStatRequest supplierStatRequest){
+//        return supplierStatRequest.
+//    }
 }

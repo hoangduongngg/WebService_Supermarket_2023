@@ -1,10 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Statistic</title>
+    <link rel="stylesheet"
+          href="../../../../static/css/tmp11.css"
+          th:href="@{/css/tmp11.css}"/>
 </head>
 <body>
+<div class="navbar-cover">
+    <nav class="navbar">
+        <a class="navbar-brand" href="#">Supermarket</a>
 
+        <button class="button logout">Logout</button>
+    </nav>
+</div>
+<h1>
+    Menu
+</h1>
+<div class="menu-cover">
+    <a class="button link" href="statistic/supplier">Supplier statistic</a>
+    <a class="button link" href="#">...</a>
+</div>
 </body>
 </html>

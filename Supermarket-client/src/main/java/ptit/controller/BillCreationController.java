@@ -1,67 +1,79 @@
 package ptit.controller;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import ptit.controller.command.ImportDetailInjector;
 import ptit.model.*;
+import ptit.service.ProductService;
 import ptit.service.SupplierService;
 import ptit.service.WarehouseService;
 
-import java.util.ArrayList;
+import java.sql.Date;
 
 @Controller
 @RequestMapping("/warehouse/import")
 public class BillCreationController {
-    private WarehouseService warehouseService;
-    private SupplierService supplierService;
+    private final WarehouseService warehouseService;
+    private final SupplierService supplierService;
+    private final ProductService productService;
+    private final ImportDetailInjector importDetailInjector;
 
     @Autowired
-    public BillCreationController(WarehouseService warehouseService, SupplierService supplierService) {
+    public BillCreationController(WarehouseService warehouseService, SupplierService supplierService, ProductService productService, ImportDetailInjector importDetailInjector) {
         this.warehouseService = warehouseService;
         this.supplierService = supplierService;
+        this.productService = productService;
+        this.importDetailInjector = importDetailInjector;
     }
-    @GetMapping("/addsup")
-    public int addsup(){
-        WarehouseWorker warehouseWorker = new WarehouseWorker();
-        warehouseWorker.setId(1L);
-        warehouseWorker.setUsername("1");
-        warehouseWorker.setPassword("1");
-        ImportBill bill = new ImportBill();
-        Product product1 = new Product();
 
-        product1.setId(1L);
-        ImportDetail billDetail1 = new ImportDetail();
-        billDetail1.setUnitPrice(10f);
-        billDetail1.setQuantity(10);
-        billDetail1.setProduct(product1);
-        billDetail1.setImportBill(bill);
+    @GetMapping("/new-bill")
+    public String showNewBillView(Model model, HttpSession session){
+        if (session.getAttribute("importBill") == null){
+            ImportBill importBill = new ImportBill();
+            importBill.setCreator((WarehouseWorker) session.getAttribute("user"));
+            session.setAttribute("importBill", importBill);
+        }
+        model.addAttribute("suppliers", supplierService.getAll());
+        model.addAttribute("products", productService.getAll());
 
-        Product product2 = new Product();
-        product2.setId(2L);
-        ImportDetail billDetail2 = new ImportDetail();
-        billDetail2.setUnitPrice(20f);
-        billDetail2.setQuantity(20);
-        billDetail2.setProduct(product2);
-        billDetail2.setImportBill(bill);
+        Product productProxy = new Product();
+        ImportDetail detailProxy = new ImportDetail();
+        detailProxy.setProduct(productProxy);
 
-        Supplier supplier = new Supplier();
-        supplier.setId(6L);
-
-        bill.setCreator(warehouseWorker);
-        bill.setSupplier(supplier);
-        bill.setCreatedTime(new java.sql.Date(new java.util.Date().getTime()));
-        bill.setDetails(new ArrayList<>(){{add(billDetail1);add(billDetail2);}});
-        warehouseService.saveImportBill(bill);
-        return 1;
+        model.addAttribute("detail", detailProxy);
+        return "warehouse/import/CreateImportBill";
     }
-    @GetMapping("/delsup")
-    public int delsup(){
-        return 1;
+
+    @PostMapping("/new-bill/set-supplier")
+    public String setSupplier(@RequestParam("supplierId") Long supplierId, @SessionAttribute ImportBill importBill){
+        importBill.setSupplier(supplierService.getById(supplierId));
+        return "redirect:../new-bill";
     }
-    @GetMapping("/getipd")
-    public int getipd(){
-        return 1;
+
+    @PostMapping("/new-bill/add-detail")
+    public String addDetail(@ModelAttribute("detail") ImportDetail detail, @SessionAttribute ImportBill importBill){
+        if (detail.getProduct().getId() != null){
+            importDetailInjector.addDetail(detail, importBill);
+        }
+        return "redirect:../new-bill";
+    }
+
+    @PostMapping("/new-bill/undo")
+    public String undo(){
+        importDetailInjector.removeMostRecentDetail();
+        return "redirect:../new-bill";
+    }
+
+    @PostMapping("/new-bill/save")
+    public String save(HttpSession session, Model model){
+        ImportBill importBill = (ImportBill) session.getAttribute("importBill");
+        importBill.setCreatedTime(new Date(new java.util.Date().getTime()));
+        warehouseService.saveImportBill(importBill);
+        session.removeAttribute("importBill");
+        model.addAttribute("importBill", importBill);
+        return "warehouse/import/SavedBill";
     }
 }

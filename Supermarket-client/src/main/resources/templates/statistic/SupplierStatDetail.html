@@ -12,53 +12,49 @@
 
 <div class="navbar-cover">
     <nav class="navbar">
-        <a class="navbar-brand" href="#">Import products</a>
+        <a class="navbar-brand" href="#">Supplier Statistic</a>
 
         <button class="button logout">Logout</button>
     </nav>
 </div>
 
-<h1>Saved Bill</h1>
+<h1>Stat Detail</h1>
 <div class="receipt-info">
     <div class="receipt-info left">
         <ul>
-            <li><b>Supplier</b>:<span th:text="${importBill.supplier.name}"></span></li>
-            <li><b>Created at</b>:<span th:text="${importBill.createdTime}"></span></li>
-            <li><b>Created by</b>:<span th:text="${importBill.creator.name}"></span></li>
+            <li><b>Supplier</b>:<span th:text="${supplier.name}"></span></li>
+            <li><b>Phone number</b>:<span th:text="${supplier.phoneNumber}"></span></li>
+            <li><b>Stat by product</b>:<span th:text="${product.name}"></span></li>
         </ul>
-    </div>
-    <div class="receipt-info right">
-        <img th:src="@{/image/printer.png}" onclick="window.print()">
     </div>
 </div>
 <div class="container">
     <ul class="responsive-table">
         <li class="table-header">
-            <div class="col col-1">ID</div>
-            <div class="col col-2">Name</div>
+            <div class="col col-1">Bill's ID</div>
+            <div class="col col-2">Quantity</div>
             <div class="col col-3">Unit price ($)</div>
-            <div class="col col-4">Quantity</div>
+            <div class="col col-4">Time</div>
         </li>
-        <li class="table-row" th:each="detail : ${importBill.details}">
+        <li class="table-row" th:each="detail : ${details}">
             <div class="col col-1">
-                <span th:utext="${detail.product.id}">Demo</span>
+                <span th:utext="${detail.importBill.id}">Demo</span>
             </div>
             <div class="col col-2">
-                <span th:utext="${detail.product.name}">Demo</span>
+                <span th:utext="${detail.quantity}">Demo</span>
             </div>
             <div class="col col-3">
                 <span th:utext="${detail.unitPrice}">Demo</span>
             </div>
             <div class="col col-4">
-                <span th:utext="${detail.quantity}">Demo</span>
+                <span th:utext="${detail.importBill.createdTime}">Demo</span>
             </div>
         </li>
         <li class="table-footer">
-            <div class="col col-footer">Total cost: <span th:text="${importBill.getTotalPrice()}"></span>$</div>
+<!--            <div class="col col-footer">Imported amount: <span th:text="${stat.totalQuantity()}"></span></div>-->
         </li>
     </ul>
 </div>
-<a class="button link" href="/warehouse">Back to home</a>
 
 </body>
 </html>

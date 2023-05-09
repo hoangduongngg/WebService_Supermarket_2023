@@ -1,5 +1,6 @@
 package ptit.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,6 @@ public class ImportDetail {
     private float unitPrice;
     private int quantity;
     private Product product;
-    @JsonIgnore
+    @JsonBackReference
     private ImportBill importBill;
 }

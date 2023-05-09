@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ImportBillService extends AbsService implements ImportProductInterface, DeleteSupplierInterface {
     private static final String DELETE_IMPORT_BILL_BY_SUPPLIER_API
-            = ServiceURL.IMPORT_DETAIL_SERVICE_URL + "/by-supplier/delete";
+            = ServiceURL.IMPORT_BILL_SERVICE_URL + "/by-supplier/delete";
     private static final String SAVE_IMPORT_BILL_API
             = ServiceURL.IMPORT_BILL_SERVICE_URL;
     @Override

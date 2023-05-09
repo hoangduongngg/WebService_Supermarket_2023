@@ -30,7 +30,7 @@ public class ProductRestController {
     }
     @PostMapping(value = "/import", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public int save(@RequestBody List<Product> products){
+    public int importProducts(@RequestBody List<Product> products){
         for (Product product:products){
             Product savedProduct = productRepository.findById(product.getId()).get();
             savedProduct.setQuantity(savedProduct.getQuantity() + product.getQuantity());

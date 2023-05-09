@@ -3,7 +3,7 @@ package microservice.controller.chain;
 import microservice.model.ImportBill;
 import microservice.service.AbsService;
 
-public class ProductImporter<S extends AbsService & ImportProductInterface>
+public class ProductImporter<S extends ImportProductInterface>
         extends WarehouseChain<ProductImporter, S, ImportBill>{
     public ProductImporter(S doChainService) {
         super(doChainService);

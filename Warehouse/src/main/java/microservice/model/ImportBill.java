@@ -16,6 +16,5 @@ public class ImportBill {
     private Date createdTime;
     private Supplier supplier;
     private WarehouseWorker creator;
-    @JsonBackReference
     private List<ImportDetail> details;
 }

@@ -3,7 +3,12 @@ package microservice.service;
 import microservice.controller.chain.DeleteSupplierInterface;
 import microservice.controller.chain.ImportProductInterface;
 import microservice.model.ImportBill;
+import microservice.model.ImportDetail;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
+import java.util.Date;
 
 @Service
 public class ImportDetailService extends AbsService implements ImportProductInterface, DeleteSupplierInterface {
@@ -13,17 +18,17 @@ public class ImportDetailService extends AbsService implements ImportProductInte
             = ServiceURL.IMPORT_DETAIL_SERVICE_URL + "/by-bill/save";
     @Override
     public boolean delete(Long supplierId) {
-        Integer response = rest.postForObject(
+        rest.postForObject(
                 DELETE_IMPORT_DETAILS_BY_SUPPLIER_API,
                 supplierId,
                 Integer.class);
-        return response == 1;
+        return true;
     }
     @Override
     public boolean save(ImportBill importBill) {
         Integer response = rest.postForObject(
                 SAVE_IMPORT_DETAILS_API,
-                importBill.getDetails(),
+                importBill,
                 Integer.class);
         return response == importBill.getDetails().size();
     }

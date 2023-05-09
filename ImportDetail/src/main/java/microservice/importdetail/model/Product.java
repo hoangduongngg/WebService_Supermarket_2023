@@ -14,4 +14,7 @@ public class Product {
     private int quantity;
     private String description;
     private String expirationDate;
+    public Product(Long id){
+        this.id = id;
+    }
 }

@@ -1,15 +1,11 @@
 package microservice.importdetail.controller;
 
-import microservice.importdetail.model.ImportBill;
-import microservice.importdetail.model.ImportDetail;
-import microservice.importdetail.model.entity.ImportDetailEntity;
+import microservice.importdetail.model.*;
 import microservice.importdetail.repository.ImportDetailRepoAdapter;
-import microservice.importdetail.repository.ImportDetailRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
 import java.sql.Date;
 import java.util.List;
 
@@ -23,19 +19,22 @@ public class ImportDetailRestController {
     public ImportDetailRestController(ImportDetailRepoAdapter importDetailRepoAdapter){
         this.importDetailRepoAdapter = importDetailRepoAdapter;
     }
-    @GetMapping("/by-supplier")
-    public List<ImportDetailEntity> getAllBySupplierAndCreatedTime(
-            @RequestParam("supplierId") Long supplierId,
-            @RequestParam("timeStart") Date timeStart,
-            @RequestParam("timeEnd") Date timeEnd){
-        System.out.println(supplierId + " " + timeEnd);
-        return null;
+    @GetMapping("/statistic/supplier")
+    public List<SupplierStat> getSupplierStats(
+            @RequestParam(name = "productId") Long productId,
+            @RequestParam(name = "timeStart") Date timeStart,
+            @RequestParam(name = "timeEnd") Date timeEnd
+    ){
+        return this.importDetailRepoAdapter.getSupplierStats(productId, timeStart, timeEnd);
     }
-//    @GetMapping("/by-supplier")
-//    public List<ImportDetailEntity> getAllBySupplierAndCreatedTime(@RequestBody Map<String, Object> data){
-//        Long supplierId = data.get("supplierId");
-//        Long
-//    }
+    @GetMapping("/statistic/supplier/detail")
+    public List<ImportDetail> getSupplierStatDetail(
+            @RequestParam(name = "supplierId") Long supplierId,
+            @RequestParam(name = "timeStart") Date timeStart,
+            @RequestParam(name = "timeEnd") Date timeEnd
+    ){
+        return this.importDetailRepoAdapter.getSupplierStatDetail(supplierId, timeStart, timeEnd);
+    }
     @PostMapping(value = "/by-bill/save", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public long saveImportBill(@RequestBody ImportBill importBill){

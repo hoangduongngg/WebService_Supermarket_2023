@@ -12,7 +12,7 @@
 <body>
 <div class="navbar-cover">
     <nav class="navbar">
-        <a class="navbar-brand" href="#">Supermarket</a>
+        <a class="navbar-brand" href="#">Supplier Management</a>
 
         <button class="button logout">Logout</button>
     </nav>
@@ -40,7 +40,7 @@
                 <span th:utext="${supplier.id}"></span>
             </div>
             <div class="col col-2">
-                <a th:href="@{/warehouse/management/supplier/edit/{id}(id = ${supplier.id})}" th:utext="${supplier.name}"></a>
+                <a th:href="@{supplier/edit/{id}(id = ${supplier.id})}" th:utext="${supplier.name}"></a>
             </div>
             <div class="col col-3">
                 <span th:utext="${supplier.phoneNumber}"></span>
@@ -51,7 +51,7 @@
                             margin: 0;
                             display: inline-block;
                             width: fit-content;"
-                        th:action="@{/warehouse/management/supplier/delete/{id}(id = ${supplier.id})}" method="post">
+                        th:action="@{supplier/delete/{id}(id = ${supplier.id})}" method="post">
                     <button class="btn btn-danger">Delete</button>
                 </form>
             </div>
