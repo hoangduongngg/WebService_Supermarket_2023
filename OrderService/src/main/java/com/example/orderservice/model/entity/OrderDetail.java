@@ -28,7 +28,8 @@ public class OrderDetail {
     @Column(name = "tbl_productid")
     private Integer tblProductid;
 
-    @Column(name = "tbl_orderid")
-    private Integer tblOrderid;
+    @ManyToOne()
+    @JoinColumn(name = "tbl_orderid")
+    private Order tblOrderid;
 
 }

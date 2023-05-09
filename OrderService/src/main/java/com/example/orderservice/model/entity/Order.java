@@ -4,13 +4,12 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Date;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
 @Entity
 @Table(name = "tblorder")
 public class Order {
@@ -24,7 +23,7 @@ public class Order {
     private String paymentType;
 
     @Column(name = "order_date")
-    private LocalDate orderDate;
+    private Date orderDate;
 
     @Column(name = "payment_date")
     private LocalDate paymentDate;
@@ -48,7 +47,7 @@ public class Order {
     private String note;
 
     @Column(name = "tbl_customerid")
-    private Integer tblCustomerid;
+    private Customer tblCustomerid;
     @Column(name = "tbl_shipperid")
     private Integer tblShipperid;
 
