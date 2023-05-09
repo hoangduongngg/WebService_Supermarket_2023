@@ -24,11 +24,16 @@ public class CartController {
 //
         Customer customer = new Customer();
         customer.setId(29);
-
-        Order cart = rest.getForObject("http://localhost:8089/api/cart/{customerID}",Order.class, customer.getId());
+        try {
+            Order cart = rest.getForObject("http://localhost:8089/api/cart/{customerID}",Order.class, customer.getId());
+            System.out.println(cart);
+            System.out.println(cart.getStatusOrder());
+        }
+        catch (Exception e) {
+            System.out.println(e);
+        }
         System.out.println(customer);
-        System.out.println(cart);
-        System.out.println(cart.getStatusOrder());
+
         return "customer/cart";
     }
 
