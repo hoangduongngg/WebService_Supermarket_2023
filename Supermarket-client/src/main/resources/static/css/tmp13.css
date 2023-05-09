@@ -143,3 +143,29 @@ body {
 .info.attributes li:not(:last-child) {
     margin-bottom: 20%;
 }
+
+.menu-cover{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+table {
+    color: white;
+    font-size: 25px;
+}
+
+table input{
+    width: 200px;
+    height: 25px;
+    margin-left: 100px;
+}
+
+table textarea{
+    width: 100%;
+    height: 150px;
+}
+
+.button.supsub {
+    width: 100%;
+}

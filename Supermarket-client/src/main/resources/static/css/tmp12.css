@@ -72,23 +72,36 @@ body {
 .button:active {
     background-color: #23006e;
 }
-
+.button.newsup {
+    margin-left: 1%;
+    width: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.button.newsup:hover{
+    color: white;
+    text-decoration: none;
+}
 form {
-    width: 900px;
+    width: 800px;
     display: flex;
     padding: 2px;
     border: 1px solid #D9D9D9;
     border-radius: 10px;
-    margin: auto;
-    margin-top: 20px;
-    margin-bottom: 50px;
+}
+.search-bar {
+    display: flex;
+    justify-content: center;
+    padding-top: 30px;
+    padding-bottom: 30px;
 }
 
 input[type="search"] {
     border: none;
     background: #D9D9D9;
     margin: 0;
-    width: 800px;
+    width: 700px;
     height: 45px;
     padding: 7px 8px;
     font-size: 20px;
