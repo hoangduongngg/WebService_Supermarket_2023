@@ -1,18 +1,34 @@
 package com.example.client_ws_supermarket.controller;
 
+import com.example.client_ws_supermarket.model.Customer;
+import com.example.client_ws_supermarket.model.Order;
+import jakarta.servlet.http.HttpSession;
+import org.hibernate.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
 
 @Controller
 @RequestMapping("cart")
 public class CartController {
+    protected RestTemplate rest = new RestTemplate();
+
 
     @GetMapping("")
-    public String cartView() {
+    public String cartView(HttpSession session, Model model) {
+//        Customer customer = (Customer) session.getAttribute("customer");
+//
+        Customer customer = new Customer();
+        customer.setId(29);
+
+        Order cart = rest.getForObject("http://localhost:8089/api/cart/{customerID}",Order.class, customer.getId());
+        System.out.println(customer);
+        System.out.println(cart);
+        System.out.println(cart.getStatusOrder());
         return "customer/cart";
     }
 
