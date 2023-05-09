@@ -16,7 +16,6 @@ async function onload() {
         window.location.href = "../account/login.html";
     }
 
-
 }
 
 function creatCard(product) {

@@ -23,7 +23,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer>{
     Optional<Product> findByNameAndIdSupplied(String name, int idSupplier);
     
     List<Product> findByNameContainingIgnoreCase(String keyword);
-
+    
     List<Product> findByNameContainingIgnoreCaseAndPriceLessThan(String keyword, Integer maxPrice);
     
     List<Product> findByNameContainingIgnoreCaseAndPriceGreaterThan(String keyword, Integer minPrice);
