@@ -89,6 +89,7 @@ async function register() {
                     if(del.ok){
                         del = await del.json()
                         console.log(del)
+                        window.location.href = 'login.html'
                     }
                     else{
                         console.log("del" + del.status)

@@ -12,7 +12,7 @@ async function login() {
         errorMessage.style.color = "red";
     } else {
         errorMessage.innerHTML = "";
-        await fetch('http://localhost:8080/login', {
+        var response = await fetch('http://localhost:8080/login', {
             method: 'POST',
             body: JSON.stringify({
                 "username":username,
@@ -22,23 +22,16 @@ async function login() {
                 'Content-Type': 'application/json',
             }
         })
-        .then(response=>{
-            if(response.status==401){
-                //sai mật khẩu
-                return {
-                    'status':'fail'
-                }
-            }
-            else if(response.status == 404){
-                //không có tài khoản
-                return {
-                    'status':'not found'
-                }
-            }
-            return response.json()
-        })
-        .then(data=>{
-            console.log(data)
-        })
+        if(response.status == 404 || response.status == 401){
+            errorMessage.innerHTML='Sai thông tin tài khoản hoặc mật khẩu!'
+            errorMessage.style.color='red'
+        }
+        else if(response.ok){
+            const responseData = await response.json()
+            sessionStorage.setItem('isLogin',true)
+            sessionStorage.setItem('id-accout-login', responseData.id)
+            sessionStorage.setItem('id-customer-login', responseData.idCustomer)
+            window.location.href = '../product/product.html'
+        }
     }
 }

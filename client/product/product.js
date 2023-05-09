@@ -1,12 +1,21 @@
 async function onload() {
-    var cards = document.getElementById('cards')
-    fetch('http://localhost:8082/products')
-        .then(res => res.json())
-        .then(data => {
-            for (var i = 0; i < data.length; i++) {
-                cards.appendChild(creatCard(data[i]))
-            }
-        })
+
+    const isLogin = sessionStorage.getItem('isLogin')
+
+    if (isLogin == 'true') {
+        var cards = document.getElementById('cards')
+        fetch('http://localhost:8082/products')
+            .then(res => res.json())
+            .then(data => {
+                for (var i = 0; i < data.length; i++) {
+                    cards.appendChild(creatCard(data[i]))
+                }
+            })
+    }
+    else{
+        window.location.href = "../account/login.html";
+    }
+
 
 }
 
@@ -112,22 +121,22 @@ async function addProduct() {
     var formData = new FormData()
     formData.append('img', img)
     formData.append('name', name)
-    formData.append('price',price)
-    formData.append('units',units)
+    formData.append('price', price)
+    formData.append('units', units)
     formData.append('expirationDate', exp)
     formData.append('description', description)
 
     var product = await fetch('http://localhost:8082/add-product-img', {
         method: 'POST',
-        body:formData,
-        
+        body: formData,
+
     })
-    
-    if(product.ok){
+
+    if (product.ok) {
         alert('thành công')
     }
-    else{
-        alert('thất bại')
+    else {
+        alert('Tên bị trùng')
     }
 }
 
@@ -139,7 +148,6 @@ async function updateImg(id, img) {
 
     var response = await fetch('http://localhost:8082/upload-image/img', {
         method: 'POST',
-        mode: 'no-cors',
         body: formData
     })
 
