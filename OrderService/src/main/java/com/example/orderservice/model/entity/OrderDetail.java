@@ -30,6 +30,6 @@ public class OrderDetail {
 
     @ManyToOne()
     @JoinColumn(name = "tbl_orderid")
-    private Order tblOrderid;
+    private Order tblOrder;
 
 }

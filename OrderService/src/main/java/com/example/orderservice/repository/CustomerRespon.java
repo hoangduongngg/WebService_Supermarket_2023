@@ -14,15 +14,15 @@ import java.util.List;
 @Repository
 public interface CustomerRespon extends JpaRepository<Customer,Integer> {
     @Query(value = "select new com.example.orderservice.dto.CustomerStatitic( " +
-            "od.tblOrderid.tblCustomer.id, od.tblOrderid.tblCustomer.tblMemberid.name, " +
+            "od.tblOrder.tblCustomer.id, od.tblOrder.tblCustomer.tblMemberid.name, " +
             "sum(od.price * od.quantity)) from OrderDetail od  " +
-            "group by od.tblOrderid.tblCustomer.id, od.tblOrderid.tblCustomer.tblMemberid.name")
+            "group by od.tblOrder.tblCustomer.id, od.tblOrder.tblCustomer.tblMemberid.name")
     List<CustomerStatitic> thongkeCustomer();
 
     @Query(value = "select new com.example.orderservice.dto.DateTotalDTO(  " +
-            "month(od.tblOrderid.orderDate), " +
+            "month(od.tblOrder.orderDate), " +
             "sum(od.price * od.quantity)) from  OrderDetail od  " +
-            "group by month(od.tblOrderid.orderDate) ")
+            "group by month(od.tblOrder.orderDate) ")
     List<DateTotalDTO> dateTotal();
 }
 
