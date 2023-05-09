@@ -24,4 +24,6 @@ public class Product {
     private String description;
     @Column(nullable = false)
     private String expirationDate;
+    @Column(nullable = true)
+    private int idSupplier;
 }
