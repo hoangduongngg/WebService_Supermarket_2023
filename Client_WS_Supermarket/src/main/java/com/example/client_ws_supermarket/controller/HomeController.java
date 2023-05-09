@@ -40,12 +40,13 @@ public class HomeController {
     }
 
     private String home_customer (HttpSession session, Model model) {
-//        List<Product> listP = Arrays.asList(
-//                rest.getForObject("http://localhost:8081//api/product",Product[].class));
-
-        //Add fix cung du lieu -> Test FE
+        String url = "http://localhost:8081/products";
         List<Product> listP = new ArrayList<>();
-        if (listP.size() == 0) {
+        try {
+            listP = Arrays.asList(rest.getForObject(url,Product[].class));
+        }
+        catch (Exception e) {
+            System.out.println(e);
             Product p = new Product();
             p.setId(1L);
             p.setName("Nike 1 '071");
@@ -56,6 +57,8 @@ public class HomeController {
             for (int i=0; i<10; i++)
                 listP.add(p);
         }
+        System.out.println(listP);
+        //Add fix cung du lieu -> Test FE
 
         //Add fix cung du lieu -> Test FE
         Customer customer = new Customer();
