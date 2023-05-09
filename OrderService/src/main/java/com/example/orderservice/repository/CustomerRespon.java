@@ -14,9 +14,9 @@ import java.util.List;
 @Repository
 public interface CustomerRespon extends JpaRepository<Customer,Integer> {
     @Query(value = "select new com.example.orderservice.dto.CustomerStatitic( " +
-            "od.tblOrder.tblCustomer.id, od.tblOrder.tblCustomer.tblMemberid.name, " +
+            "od.tblOrder.tblCustomer.tblMember.name, " +
             "sum(od.price * od.quantity)) from OrderDetail od  " +
-            "group by od.tblOrder.tblCustomer.id, od.tblOrder.tblCustomer.tblMemberid.name")
+            "group by od.tblOrder.tblCustomer.tblMember.id, od.tblOrder.tblCustomer.tblMember.name")
     List<CustomerStatitic> thongkeCustomer();
 
     @Query(value = "select new com.example.orderservice.dto.DateTotalDTO(  " +

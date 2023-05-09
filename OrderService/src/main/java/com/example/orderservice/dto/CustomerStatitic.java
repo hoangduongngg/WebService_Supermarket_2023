@@ -1,18 +1,11 @@
 package com.example.orderservice.dto;
 
 public class CustomerStatitic {
-    private Integer customerid;
 
     private String customerName;
     private Long total;
 
-    public Integer getCustomerid() {
-        return customerid;
-    }
 
-    public void setCustomerid(Integer customerid) {
-        this.customerid = customerid;
-    }
 
     public Long getTotal() {
         return total;
@@ -30,8 +23,7 @@ public class CustomerStatitic {
         this.customerName = customerName;
     }
 
-    public CustomerStatitic(Integer customerid, String customerName, Long total) {
-        this.customerid = customerid;
+    public CustomerStatitic( String customerName, Long total) {
         this.customerName = customerName;
         this.total = total;
     }

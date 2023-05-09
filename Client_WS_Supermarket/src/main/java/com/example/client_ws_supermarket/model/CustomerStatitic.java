@@ -10,18 +10,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CustomerStatitic {
-    private Integer customerid;
 
     private String customerName;
     private int total;
 
-    public Integer getCustomerid() {
-        return customerid;
-    }
 
-    public void setCustomerid(Integer customerid) {
-        this.customerid = customerid;
-    }
 
     public int getTotal() {
         return total;

@@ -1,5 +1,6 @@
 package com.example.orderservice.service;
 
+import com.example.orderservice.model.entity.Customer;
 import com.example.orderservice.model.entity.Order;
 import com.example.orderservice.model.entity.OrderDetail;
 import com.example.orderservice.repository.OrderDetailRepository;
@@ -16,8 +17,8 @@ public class OrderServiceImp implements OrderService{
     private OrderDetailRepository orderDetailRepository;
 
     @Override
-    public Order getCartByCustomerId (Integer id) {
-        Optional<Order> order = orderRepository.findByTblCustomeridAndStatusOrder(id, "cart");
+    public Order getCartByCustomer (Customer customer) {
+        Optional<Order> order = orderRepository.findByTblCustomerAndStatusOrder(customer, "cart");
         if (order.isPresent()) {
 //            return SetTotalAmount(order.get());
             return order.get();

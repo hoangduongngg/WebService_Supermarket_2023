@@ -19,19 +19,19 @@ public class OrderDetailServiceImp implements OrderDetailService{
 
     private OrderDetailRepository orderDetailRepository;
     @Override
-    public List<OrderDetail> addtoCart(Integer productID, Customer customerID) {
-        Order order = orderService.getCartByCustomerId(customerID);
+    public List<OrderDetail> addtoCart(Integer productID, Customer customer) {
+        Order order = orderService.getCartByCustomer(customer);
 //        Neu chua ton tai Cart thi tao moi
         if (order == null) {
             order = new Order();
             order.setStatusOrder("cart");
-            order.setTblCustomer(customerID);
+            order.setTblCustomer(customer);
             orderRepository.save(order);
-            order = orderService.getCartByCustomerId(customerID);
+            order = orderService.getCartByCustomer(customer);
         }
 
         Optional<OrderDetail> list_od = orderDetailRepository.
-                findByTblOrderidAndTblProductid(order.getId(), productID);
+                findByTblOrderAndTblProductid(order, productID);
         OrderDetail od = new OrderDetail();
         // Da ton tai san pham trong gio hang
         if (list_od.isPresent()) {
@@ -42,18 +42,18 @@ public class OrderDetailServiceImp implements OrderDetailService{
             od.setQuantity(1);
 //            od.setPrice(100); =product.getPrice();
             od.setTblProductid(productID);
-            od.setTblOrderid(order.getId());
+            od.setTblOrder(order);
         }
         orderDetailRepository.save(od);
 
-        return orderDetailRepository.findByTblOrderid(order.getId());
+        return orderDetailRepository.findByTblOrder(order);
     }
 
     @Override
-    public Boolean SetQuantityProductInCart(Integer productID, Integer customerID, String action) {
-        Order order = orderService.getCartByCustomerId(customerID);
+    public Boolean SetQuantityProductInCart(Integer productID, Customer customer, String action) {
+        Order order = orderService.getCartByCustomer(customer);
         Optional<OrderDetail> list_od = orderDetailRepository.
-                findByTblOrderidAndTblProductid(order.getId(), productID);
+                findByTblOrderAndTblProductid(order, productID);
 
         try {
             OrderDetail od = list_od.get();
