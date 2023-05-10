@@ -62,7 +62,7 @@ public class HomeController {
 
         //Add fix cung du lieu -> Test FE
         Customer customer = new Customer();
-        customer.setId(29);
+        customer.setId(1);
 
         session.setAttribute("customer", customer);
         model.addAttribute("listP", listP);

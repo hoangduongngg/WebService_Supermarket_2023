@@ -50,11 +50,11 @@
 
                                 <tr th:each="od : ${list_od}">
                                     <th scope="row">
-                                        <a href="ProductDetail.jsp?ProductID=${od.product.id}">
+                                        <a th:href="@{product/{id}(id=${od.tblProductid})}">
 
                                             <div class="d-flex align-items-center">
                                                 <img src="${od.product.img}" class="img-fluid rounded-3"
-                                                     style="width: 120px;" alt="Book">
+                                                     style="width: 120px;" alt="Product">
 
                                                 <div class="flex-column ms-4">
                                                     <p class="mb-2" style="color:#2b6054; text-decoration: none;">${od.product.name}</p>
@@ -78,7 +78,7 @@
                                             </a>
 
 
-                                            <input id="form1" min="1" name="quantity" value="${od.quantity}" type="number"
+                                            <input id="form1" min="1" name="quantity" th:value="${od.quantity}" type="number"
                                                    class="form-control form-control-sm" style="width: 50px;" />
 
                                             <a href="doIncRecDel.jsp?action=inc&OrderDetailID=${od.id}">
@@ -92,7 +92,7 @@
                                         </div>
                                     </td>
                                     <td class="align-middle">
-                                        <p class="mb-0" style="font-weight: 500;">${od.price} $</p>
+                                        <p th:text="${od.price}" class="mb-0" style="font-weight: 500;"></p>
                                     </td>
 
                                     <td class="align-middle">
