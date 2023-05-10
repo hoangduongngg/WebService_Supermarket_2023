@@ -6,10 +6,7 @@ import jakarta.servlet.http.HttpSession;
 import org.hibernate.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 @Controller
@@ -24,11 +21,16 @@ public class CartController {
 //
         Customer customer = new Customer();
         customer.setId(29);
-
-        Order cart = rest.getForObject("http://localhost:8089/api/cart/{customerID}",Order.class, customer.getId());
+        try {
+            Order cart = rest.getForObject("http://localhost:8089/api/cart/{customerID}",Order.class, customer.getId());
+            System.out.println(cart);
+            System.out.println(cart.getStatusOrder());
+        }
+        catch (Exception e) {
+            System.out.println(e);
+        }
         System.out.println(customer);
-        System.out.println(cart);
-        System.out.println(cart.getStatusOrder());
+
         return "customer/cart";
     }
 
