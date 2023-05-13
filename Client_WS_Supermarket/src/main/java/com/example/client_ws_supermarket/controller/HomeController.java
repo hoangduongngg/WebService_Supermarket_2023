@@ -64,6 +64,7 @@ public class HomeController {
         Customer customer = new Customer();
         customer.setId(29);
 
+        
         session.setAttribute("customer", customer);
         model.addAttribute("listP", listP);
         return "customer/home";

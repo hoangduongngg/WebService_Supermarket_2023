@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class TestController {
     @GetMapping("")
     public String test_home () {
-        return "customer/test";
+        return "admin/updateProduct";
     }
 }

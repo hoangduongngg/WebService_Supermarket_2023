@@ -72,6 +72,20 @@ public class ProductController {
             return ResponseEntity.ok(newProduct);
         }
     }
+    
+    @PostMapping("/add-product-img")
+    @ResponseBody
+    public ResponseEntity<?> addProductImg(@RequestParam("img") MultipartFile img,
+            @RequestParam String name, @RequestParam int price) {
+        Optional<Product> product = productRepository.findByNameAndIdSupplied("",1);
+        if (product.isPresent()) {
+            return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).build();
+
+        } else {
+
+            return ResponseEntity.ok().build();
+        }
+    }
 
     @PostMapping("/update-product")
     @ResponseBody

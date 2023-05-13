@@ -39,4 +39,9 @@ public class ProductController {
         model.addAttribute("p", p);
         return "customer/product";
     }
+    
+    @GetMapping("add-product")
+    public String viewAddProduct(){
+        return "admin/addProduct";
+    }
 }
