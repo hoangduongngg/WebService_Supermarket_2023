@@ -1,7 +1,6 @@
 package com.example.orderdetailservice.service;
 
-import com.example.orderdetailservice.model.entity.Order;
-import com.example.orderdetailservice.model.entity.OrderDetail;
+import com.example.orderdetailservice.model.entity.OrderDetailEntity;
 import com.example.orderdetailservice.repository.OrderDetailRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,11 +13,11 @@ public class OrderDetailServiceImp implements OrderDetailService{
     @Autowired
     private OrderDetailRepository orderDetailRepository;
     @Override
-    public List<OrderDetail> addtoCart(Integer productId, Integer orderId, Integer customerId, Integer price) {
+    public List<OrderDetailEntity> addtoCart(Integer productId, Integer orderId, Integer customerId, Integer price) {
         // Coi nhu da ton tai Order, neu chua thi tao o ben OrderSer
         try {
-            Optional<OrderDetail> list_od = orderDetailRepository.findByTblOrderidAndTblProductid(orderId, productId);
-            OrderDetail od = new OrderDetail();
+            Optional<OrderDetailEntity> list_od = orderDetailRepository.findByTblOrderidAndTblProductid(orderId, productId);
+            OrderDetailEntity od = new OrderDetailEntity();
             // Da ton tai san pham trong gio hang
             if (list_od.isPresent()) {
                 od = list_od.get();
@@ -42,12 +41,12 @@ public class OrderDetailServiceImp implements OrderDetailService{
     }
 
     @Override
-    public List<OrderDetail> setQuantityProductInCart(Integer productId, Integer orderId, String action) {
+    public List<OrderDetailEntity> setQuantityProductInCart(Integer productId, Integer orderId, String action) {
         try {
-            Optional<OrderDetail> list_od = orderDetailRepository.
+            Optional<OrderDetailEntity> list_od = orderDetailRepository.
                     findByTblOrderidAndTblProductid(orderId, productId);
             try {
-                OrderDetail od = list_od.get();
+                OrderDetailEntity od = list_od.get();
                 switch (action){
                     case "inc": od.setQuantity(od.getQuantity() +1);
                         break;
