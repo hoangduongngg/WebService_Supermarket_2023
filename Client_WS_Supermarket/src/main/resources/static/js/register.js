@@ -48,7 +48,7 @@ async function register() {
         }
         else {
             errorMessage.innerHTML = ""
-            var customer = await fetch('http://localhost:8081/add-customer', {
+            var customer = await fetch('http://localhost:8082/add-customer', {
                 method: 'POST',
                 body: JSON.stringify({
                     "name": fullname,
@@ -70,7 +70,8 @@ async function register() {
                     body:JSON.stringify({
                         "username":username,
                         "password":password,
-                        "idCustomer":customer.id
+                        "role":"customer",
+                        "idUser":customer.id
                     }),
                     headers: {
                         'Content-Type': 'application/json',
@@ -78,11 +79,13 @@ async function register() {
                 })
 
                 if(account.ok){
+                    alert("Đăng ký thành công")
                     account = await account.json()
                     console.log(account)
                 }
                 else{
-                    var del = await fetch('http://localhost:8081/add-customer?id=' + customer.id,{
+                    alert("Lỗi thêm account")
+                    var del = await fetch('http://localhost:8082/delete-customer?id=' + customer.id,{
                         method: 'DELETE',
                     })
 
@@ -99,6 +102,7 @@ async function register() {
                 }
             }
             else{
+                alert("Lỗi thêm customer")
                 console.log("customer" + customer.status)
             }
 
