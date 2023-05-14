@@ -11,7 +11,7 @@ public class Product {
     private static final long serialVersionUID = 100000000000001L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
