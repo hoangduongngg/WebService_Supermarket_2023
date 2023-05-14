@@ -12,7 +12,7 @@ async function login() {
         errorMessage.style.color = "red";
     } else {
         errorMessage.innerHTML = "";
-        var response = await fetch('http://127.0.0.1:8090/account/dologin', {
+        var response = await fetch('http://127.0.0.1:8080/login', {
             method: 'POST',
             body: JSON.stringify({
                 "username": username,
@@ -23,14 +23,18 @@ async function login() {
             }
         })
         if (response.status == 404 || response.status == 401) {
-            errorMessage.innerHTML = 'Sai thông tin tài khoản hoặc mật khẩu!'
+            const responseData = await response.json()
+            errorMessage.innerHTML = 'Sai thông tin tài khoản, mật khẩu'
             errorMessage.style.color = 'red'
+            console.log(responseData);
         } else if (response.ok) {
             const responseData = await response.json()
-            sessionStorage.setItem('isLogin', true)
-            sessionStorage.setItem('id-accout-login', responseData.id)
-            sessionStorage.setItem('id-customer-login', responseData.idCustomer)
-            window.location.href = 'http://127.0.0.1:8090/'
+            if (responseData.role === 'customer') {
+                window.location.href = 'http://127.0.0.1:8090/'
+            }
+            else{
+                window.location.href = 'http://127.0.0.1:8090/product/listProduct'
+            }
         }
     }
 }

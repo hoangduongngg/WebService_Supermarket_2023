@@ -10,6 +10,7 @@
         <!------ Include the above in your HEAD tag ---------->
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
         <link rel="stylesheet" th:href="@{/css/style.css}" />
+        <script th:src = "@{/js/login.js}"></script>
     </head>
 
     <body id="page-top">
@@ -22,14 +23,14 @@
 
                             <h3 class="text-center mb-4">Login</h3>
                             <!-- FORM -->
-                            <div class="login-form">
+                            <div class="login-form" >
                                 <div class="form-group">
                                     <input id="username" type="text" name="username" class="form-control rounded-left"
-                                           placeholder="Username"  autocomplete="off" required>
+                                           placeholder="Username"  autocomplete="off">
                                 </div>
                                 <div class="form-group d-flex">
                                     <input id="password" type="password" name="password" class="form-control rounded-left"
-                                           placeholder="Password"  autocomplete="off" required>
+                                           placeholder="Password"  autocomplete="off"  required>
                                 </div>
                                 <div class="form-group">
                                     <div id="error-message" style="text-align: center;"></div>
@@ -49,10 +50,7 @@
                 </div>
             </div>
         </section>
-
-        <script></script>
     </body>
-<script th:src="@{/js/login.js}"></script>
 
 </html>
 
