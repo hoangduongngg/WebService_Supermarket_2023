@@ -30,11 +30,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 /**
  *
  * @author ben
  */
+@CrossOrigin
 @RestController
 public class ProductController {
 
@@ -76,15 +78,38 @@ public class ProductController {
     @PostMapping("/add-product-img")
     @ResponseBody
     public ResponseEntity<?> addProductImg(@RequestParam("img") MultipartFile img,
-            @RequestParam String name, @RequestParam int price) {
-        Optional<Product> product = productRepository.findByNameAndIdSupplied("",1);
-        if (product.isPresent()) {
-            return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).build();
+            @RequestParam String name,
+            @RequestParam int price,
+            @RequestParam int units,
+            @RequestParam String expirationDate,
+            @RequestParam String description) {
 
+        Optional<Product> product = productRepository.findByName(name);
+        if (!product.isPresent()) {
+            try {
+                Map<String, String> config = new HashMap<>();
+                config.put("cloud_name", "dne2tjjym");
+                config.put("api_key", "871314462855254");
+                config.put("api_secret", "m_8hFHYWag6pdETWKh4_rhCkBTg");
+                Cloudinary cloudinary = new Cloudinary(config);
+
+                String url = (String) cloudinary.uploader().upload(img.getBytes(), ObjectUtils.asMap(
+                        "folder", "products",
+                        "public_id", name)).get("url");
+                
+                Product newPro = new Product(name, url, price, units, expirationDate, description);
+                
+                productRepository.save(newPro);
+                return ResponseEntity.ok(newPro);
+
+            } catch (Exception e) {
+                System.out.println(e);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading file: " + e.getMessage());
+            }
         } else {
-
-            return ResponseEntity.ok().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+
     }
 
     @PostMapping("/update-product")

@@ -20,12 +20,10 @@ async function addProduct() {
         body: formData,
 
     })
-    
-    alert(product)
-    
+        
     if (product.ok) {
-        alert('1')
+        alert("Thêm thành công")
     } else {
-        alert('2')
+        alert("Tên sản phẩm bị trùng")
     }
 }

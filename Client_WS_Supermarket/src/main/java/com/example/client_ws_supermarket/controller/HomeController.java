@@ -58,12 +58,10 @@ public class HomeController {
                 listP.add(p);
         }
         System.out.println(listP);
-        //Add fix cung du lieu -> Test FE
-
+        
         //Add fix cung du lieu -> Test FE
         Customer customer = new Customer();
         customer.setId(29);
-
         
         session.setAttribute("customer", customer);
         model.addAttribute("listP", listP);

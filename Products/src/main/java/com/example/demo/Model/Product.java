@@ -7,6 +7,7 @@ package com.example.demo.Model;
 
 import java.io.Serializable;
 import jakarta.persistence.*;
+
 /**
  *
  * @author ben
@@ -75,8 +76,17 @@ public class Product implements Serializable {
         this.price = productRequest.price;
         this.units = productRequest.units;
         this.expirationDate = productRequest.expirationDate;
-        this.description=productRequest.description;
+        this.description = productRequest.description;
         this.idSupplier = productRequest.idSupplier;
+    }
+
+    public Product(String name, String url, int price, int units, String expirationDate, String description) {
+        this.name = name;
+        this.img = url;
+        this.price = price;
+        this.units = units;
+        this.expirationDate = expirationDate;
+        this.description = description;
     }
 
     public Integer getId() {
@@ -167,5 +177,5 @@ public class Product implements Serializable {
     public String toString() {
         return "com.example.demo.Model.Product[ id=" + id + " ]";
     }
-    
+
 }

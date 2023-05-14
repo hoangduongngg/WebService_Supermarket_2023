@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <meta charset="UTF-8" />
+        <title>Welcome Page</title>
+        <link th:href="@{//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css}" rel="stylesheet" id="bootstrap-css">
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <!------ Include the above in your HEAD tag ---------->
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        <link rel="stylesheet" th:href="@{/css/style.css}" />
+    </head>
+
+    <body id="page-top">
+        <!-- Navigation-->
+        <section class="ftco-section">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-7 col-lg-5">
+                        <div class="login-wrap p-4 p-md-5">
+
+                            <h3 class="text-center mb-4">Login</h3>
+                            <!-- FORM -->
+                            <div class="login-form">
+                                <div class="form-group">
+                                    <input id="username" type="text" name="username" class="form-control rounded-left"
+                                           placeholder="Username"  autocomplete="off" required>
+                                </div>
+                                <div class="form-group d-flex">
+                                    <input id="password" type="password" name="password" class="form-control rounded-left"
+                                           placeholder="Password"  autocomplete="off" required>
+                                </div>
+                                <div class="form-group">
+                                    <div id="error-message" style="text-align: center;"></div>
+                                    <button type="submit" class="form-control rounded submit px-3"
+                                            style="background-color: #2b6054; color: white;"
+                                            onclick="login()">
+                                        Login
+                                    </button>
+
+                                </div>
+                                <div style="text-align: center;">
+                                    <p>You don't have account! <a href="register.html">register</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <script></script>
+    </body>
+<script th:src="@{/js/login.js}"></script>
+
+</html>
+
