@@ -23,5 +23,7 @@ public class AccountDTO {
         this.role = role;
         this.idUser = idUser;
     }
+
+    
     
 }

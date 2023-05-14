@@ -67,16 +67,13 @@ public class AccountController {
     @PostMapping("/login")
     @ResponseBody
     public ResponseEntity<?> login(@RequestBody AccountDTO accountDTO) {
-        System.out.println(accountDTO.username);
-        System.out.println(accountDTO.password);
         Optional<Account> account = accountRepository.findByUsernameAndPassword(accountDTO.username, accountDTO.password);
         if (account.isPresent()) {
             return ResponseEntity.ok(account.get());
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(accountDTO);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
-        
     }
 
     @PostMapping("/update-account")
