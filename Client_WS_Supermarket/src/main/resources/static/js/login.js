@@ -50,17 +50,15 @@ async function login() {
             }
             
             if (responseData.role === 'customer') {
-<<<<<<< HEAD
                 // window.location.href = 'http://127.0.0.1:8090/'
                 // window.location.href = 'http://localhost:8090/'
-                window.location.href = 'http://localhost:8090'
+                window.location.href = 'http://localhost:8000'
+            }
+            else if (responseData.role === 'manager') {
+                window.location.href = 'http://localhost:4001'
             }
             else{
-=======
-                window.location.href = 'http://127.0.0.1:8090/'
-            } else {
->>>>>>> Ben_getAccount
-                window.location.href = 'http://127.0.0.1:8090/product/listProduct'
+                window.location.href = 'http://localhost:8099'
             }
         }
     }

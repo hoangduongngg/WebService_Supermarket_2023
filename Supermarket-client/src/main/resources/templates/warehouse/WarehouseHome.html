@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Warehouse Home</title>
+    <link rel="stylesheet"
+       href="../../../../static/css/tmp11.css"
+       th:href="@{/css/tmp11.css}"/>
+</head>
+<body>
+<div class="navbar-cover">
+    <nav class="navbar">
+        <a class="navbar-brand" href="#">Warehouse</a>
+        <div class="navbar right" th:if="${session.get('user') == null}">
+            <label style="width: 200px;display:inline-block;"></label>
+            <button class="button logout"><a style="color: white;text-decoration: none;" th:href="@{/}">Login</a></button>
+        </div>
+        <form class="navbar right" th:if="${session.get('user') != null}" method="post" th:action="@{/logout}">
+            <label style="width: 200px;display:inline-block;">Welcome, <b th:text="${session.get('user').name}"></b></label>
+            <button class="button logout">Logout</button>
+        </form>
+    </nav>
+</div>
+<h1>
+    Menu
+</h1>
+<div class="menu-cover">
+    <a class="button link" href="warehouse/import/new-bill">Import spare parts</a>
+    <a class="button link" href="warehouse/management/supplier">Suppliers management</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Supplier Statistic</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="../../../../static/css/tmp22.css"
+          th:href="@{/css/tmp22.css}"/>
+    <script src="../../../../static/js/util.js"
+            th:src="@{/js/util.js}" charset="utf-8"></script>
+</head>
+<body>
+<div class="navbar-cover">
+    <nav class="navbar">
+        <a style="margin-top:120px" class="navbar-brand" href="#">Supplier Statistic</a>
+    </nav>
+</div>
+<div class="container">
+    <div class="dropdown">
+        <a id="product-name"
+           class="choose-button"
+           data-toggle="dropdown"
+           aria-haspopup="true"
+           aria-expanded="false"
+           onclick="changeDisplay('dropdown-product')"
+        th:text="${statRequest.product.name != null}? ${statRequest.product.name} : 'Select product'">
+            Demo
+        </a>
+        <div class="dropdown-menu"  id="dropdown-product">
+            <input class="search-field"
+                   type="text"
+                   placeholder="Search.."
+                   id="product-search-field"
+                   onkeyup="filterByName(this.id, 'dropdown-product')">
+            <a class="dropdown-item"
+               th:onclick="'selectProduct(\'product-name\', \'dropdown-product\', \'productId\', \'productName\', ' + ${prod.id} + ', this.text)'"
+               th:each="prod: ${products}"
+               th:text="${prod.name}"></a>
+        </div>
+    </div>
+    <br>
+    <form style="width: 100%;" action="" method="get" th:object="${statRequest}">
+        <input hidden id="productId" th:field="*{product.id}">
+        <input hidden id="productName" th:field="*{product.name}">
+        <label style="color: white; margin-left: 5%; font-size: 20px">Time start:</label>
+        <input type="date" th:field="*{timeStart}">
+        <label style="color: white; margin-left: 10%; font-size: 20px">Time end:</label>
+        <input type="date" th:field="*{timeEnd}">
+        <button class="btn btn-primary" style="margin-left: 20%; font-size: 20px;">Statistic</button>
+    </form>
+    <br>
+</div>
+<div class="container">
+    <ul class="responsive-table">
+        <li class="table-header">
+            <div class="col col-1">Supplier</div>
+            <div class="col col-2">Quantity</div>
+            <div class="col col-3">Amount</div>
+            <div class="col col-4">Action</div>
+        </li>
+        <li class="table-row" th:each="stat : ${stats}">
+            <div class="col col-1">
+                <span th:utext="${stat.name}">Demo</span>
+            </div>
+            <div class="col col-2">
+                <span th:utext="${stat.totalQuantity()}">Demo</span>
+            </div>
+            <div class="col col-3">
+                <span th:utext="${stat.totalAmount()}">Demo</span>
+            </div>
+            <div class="col col-4">
+                <form
+                        style="
+                            margin: 0;
+                            display: inline-block;
+                            width: fit-content;"
+                        th:action="@{supplier/detail/{id}(id = ${stat.id})}" method="post">
+                    <button class="btn btn-info">Detail</button>
+                </form>
+            </div>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

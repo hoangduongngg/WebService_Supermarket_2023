@@ -1,12 +1,9 @@
 package com.example.client_ws_supermarket.controller;
 
 import com.example.client_ws_supermarket.model.Product;
-<<<<<<< HEAD
-=======
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
->>>>>>> Ben_getAccount
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
