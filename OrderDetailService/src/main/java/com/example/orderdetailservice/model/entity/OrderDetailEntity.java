@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Data
+@NoArgsConstructor
 @Table(name = "tblorderdetail")
 public class OrderDetailEntity {
     @Id

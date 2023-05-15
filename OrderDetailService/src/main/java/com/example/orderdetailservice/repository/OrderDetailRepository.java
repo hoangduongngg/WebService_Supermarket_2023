@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface OrderDetailRepository extends JpaRepository <OrderDetailEntity, Long> {
-    Optional<OrderDetailEntity> findByTblOrderidAndTblProductid (Integer orderID, Integer productID);
+    OrderDetailEntity findByTblOrderidAndTblProductid (Integer orderID, Integer productID);
     List<OrderDetailEntity> findByTblOrderid (Integer orderID);
 
 }

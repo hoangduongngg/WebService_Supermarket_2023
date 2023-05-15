@@ -1,6 +1,7 @@
 package com.example.client_ws_supermarket.controller;
 
 import com.example.client_ws_supermarket.model.Customer;
+import com.example.client_ws_supermarket.model.Order;
 import com.example.client_ws_supermarket.model.Product;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -62,8 +63,11 @@ public class HomeController {
         //Add fix cung du lieu -> Test FE
         Customer customer = new Customer();
         customer.setId(1);
-
         session.setAttribute("customer", customer);
+
+        Order cart = rest.getForObject("http://localhost:8089/api/cart/{customerID}",Order.class, customer.getId());
+        session.setAttribute("order", cart);
+
         model.addAttribute("listP", listP);
         return "customer/home";
     }

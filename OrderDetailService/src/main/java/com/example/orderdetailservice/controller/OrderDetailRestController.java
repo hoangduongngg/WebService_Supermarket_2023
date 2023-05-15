@@ -2,7 +2,9 @@ package com.example.orderdetailservice.controller;
 
 import com.example.orderdetailservice.model.DTO.Order;
 import com.example.orderdetailservice.model.DTO.OrderDetail;
+import com.example.orderdetailservice.model.DTO.Product;
 import com.example.orderdetailservice.model.entity.OrderDetailEntity;
+import com.example.orderdetailservice.model.request.OrderProductRequest;
 import com.example.orderdetailservice.repository.OrderDetailRepository;
 import com.example.orderdetailservice.service.OrderDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,15 +47,16 @@ public class OrderDetailRestController {
     }
 
     //    localhost:8088/api/details/addtocart?productId=1&orderId=29
-    @PostMapping("/addtocart")
-    public ResponseEntity<List<OrderDetailEntity>> addtoCart (@RequestParam("productId") Integer productId,
-                                                              @RequestParam("orderId") Integer orderId,
-                                                              @RequestParam("customerId") Integer customerId,
-                                                              @RequestParam("price") Integer price
-                                                        ) {
+    @PostMapping(value = "/addtocart", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Order> addtoCart (@RequestBody OrderProductRequest request) {
+        Order order = request.getOrder();
+        Product product = request.getProduct();
+        System.out.println("Da gui duoc order:" + order.getStatusOrder());
+        System.out.println("Da gui duoc product:" + product.getName());
 
-        List<OrderDetailEntity> list_od = orderDetailService.addtoCart(productId, orderId, customerId, price);
-        return ResponseEntity.status(HttpStatus.OK).body(list_od);
+        Order cart = orderDetailService.addtoCart(product, order);
+        System.out.println(cart.getDetails());
+        return ResponseEntity.status(HttpStatus.OK).body(cart);
     }
 
     @PostMapping("/setQuantity")
