@@ -1,12 +1,11 @@
-package com.example.client_ws_supermarket.model;
+package com.example.orderservice.model.DTO;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
-import java.util.Date;
-
 @Data
 @RequiredArgsConstructor
+
 public class Product {
     private Integer id;
     private String name;
@@ -17,4 +16,8 @@ public class Product {
     private String expirationDate;
     private int idSupplier;
 
+
+    public Product(Integer id) {
+        this.id = id;
+    }
 }

@@ -1,4 +1,4 @@
-package com.example.client_ws_supermarket.model;
+package com.example.orderservice.model.DTO;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -7,4 +7,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class Customer {
     private Integer id;
+
+    public Customer(Integer id) {
+        this.id = id;
+    }
 }

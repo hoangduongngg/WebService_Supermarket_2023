@@ -4,7 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -13,7 +13,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "tblorder")
-public class Order {
+public class OrderEntity {
     private static final long serialVersionUID = 100000000000002L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,16 +24,16 @@ public class Order {
     private String paymentType;
 
     @Column(name = "order_date")
-    private LocalDate orderDate;
+    private Date orderDate;
 
     @Column(name = "payment_date")
-    private LocalDate paymentDate;
+    private Date paymentDate;
 
     @Column(name = "cancel_date")
-    private LocalDate cancelDate;
+    private Date cancelDate;
 
     @Column(name = "delivery_date")
-    private LocalDate deliveryDate;
+    private Date deliveryDate;
 
     @Column(name = "reason_cancel")
     private String reasonCancel;

@@ -1,7 +1,6 @@
-package com.example.client_ws_supermarket.model;
+package com.example.orderdetailservice.model.DTO;
 
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 import java.util.List;

@@ -1,6 +1,7 @@
 package com.example.orderservice.controller;
 
-import com.example.orderservice.model.entity.Order;
+import com.example.orderservice.model.DTO.Order;
+import com.example.orderservice.model.entity.OrderEntity;
 import com.example.orderservice.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

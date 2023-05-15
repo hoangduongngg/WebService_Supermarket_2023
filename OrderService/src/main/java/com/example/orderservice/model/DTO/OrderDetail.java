@@ -1,4 +1,4 @@
-package com.example.client_ws_supermarket.model;
+package com.example.orderservice.model.DTO;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;

@@ -6,6 +6,8 @@
 package com.example.demo.Model;
 
 import java.io.Serializable;
+import java.util.Date;
+
 import jakarta.persistence.*;
 /**
  *
@@ -19,7 +21,7 @@ import jakarta.persistence.*;
     @NamedQuery(name = "Product.findByName", query = "SELECT p FROM Product p WHERE p.name = :name"),
     @NamedQuery(name = "Product.findByImg", query = "SELECT p FROM Product p WHERE p.img = :img"),
     @NamedQuery(name = "Product.findByPrice", query = "SELECT p FROM Product p WHERE p.price = :price"),
-    @NamedQuery(name = "Product.findByUnits", query = "SELECT p FROM Product p WHERE p.units = :units"),
+    @NamedQuery(name = "Product.findByquantity", query = "SELECT p FROM Product p WHERE p.quantity = :quantity"),
     @NamedQuery(name = "Product.findByDescription", query = "SELECT p FROM Product p WHERE p.description = :description"),
     @NamedQuery(name = "Product.findByExpirationDate", query = "SELECT p FROM Product p WHERE p.expirationDate = :expirationDate"),
     @NamedQuery(name = "Product.findByIdSupplier", query = "SELECT p FROM Product p WHERE p.idSupplier = :idSupplier")})
@@ -41,8 +43,8 @@ public class Product implements Serializable {
     @Column(name = "price")
     private int price;
     @Basic(optional = false)
-    @Column(name = "units")
-    private int units;
+    @Column(name = "quantity")
+    private int quantity;
     @Column(name = "description")
     private String description;
     @Basic(optional = false)
@@ -59,12 +61,12 @@ public class Product implements Serializable {
         this.id = id;
     }
 
-    public Product(Integer id, String name, String img, int price, int units, String expirationDate, int idSupplier) {
+    public Product(Integer id, String name, String img, int price, int quantity, String expirationDate, int idSupplier) {
         this.id = id;
         this.name = name;
         this.img = img;
         this.price = price;
-        this.units = units;
+        this.quantity = quantity;
         this.expirationDate = expirationDate;
         this.idSupplier = idSupplier;
     }
@@ -73,7 +75,7 @@ public class Product implements Serializable {
         this.name = productRequest.name;
         this.img = productRequest.img;
         this.price = productRequest.price;
-        this.units = productRequest.units;
+        this.quantity = productRequest.quantity;
         this.expirationDate = productRequest.expirationDate;
         this.description=productRequest.description;
         this.idSupplier = productRequest.idSupplier;
@@ -111,12 +113,12 @@ public class Product implements Serializable {
         this.price = price;
     }
 
-    public int getUnits() {
-        return units;
+    public int getquantity() {
+        return quantity;
     }
 
-    public void setUnits(int units) {
-        this.units = units;
+    public void setquantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public String getDescription() {
