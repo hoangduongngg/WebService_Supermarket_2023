@@ -18,7 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Controller
 public class TKcontroller {
 	protected RestTemplate restTemplate=new RestTemplate();
-    @GetMapping("")
+    @GetMapping("/")
     public String thongKeView() {
         return "home";
     }

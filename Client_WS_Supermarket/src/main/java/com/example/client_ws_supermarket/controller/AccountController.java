@@ -30,7 +30,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @CrossOrigin
 @Controller
-@RequestMapping("account")
+@RequestMapping("")
 public class AccountController {
 
     protected RestTemplate rest = new RestTemplate();
@@ -39,6 +39,11 @@ public class AccountController {
     public String login() {
         return "account/login";
     }
+
+//    @GetMapping("warehouse")
+//    public String warehouse() {
+//        return "";
+//    }
 
     @PostMapping("save-login")
     public String doLogin(HttpSession session, @RequestBody Account account) {

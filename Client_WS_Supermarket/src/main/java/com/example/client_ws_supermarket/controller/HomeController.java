@@ -26,13 +26,14 @@ public class HomeController {
     @GetMapping("/")
     public String home (HttpSession session, Model model) {
         // Kiem tra neu la Admin thi chuyen den trang admin
-        Account account = (Account)session.getAttribute("account");
-        if (account.getRole() == "customer") {
-            return home_customer(session, model);
-        }
-        else {
-            return home_customer(session, model);
-        }
+//        Account account = (Account)session.getAttribute("account");
+//        if (account.getRole() == "customer") {
+//            return home_customer(session, model);
+//        }
+//        else {
+//            return home_customer(session, model);
+//        }
+        return home_customer(session, model);
     }
 
     @PostMapping ("/")
@@ -71,7 +72,9 @@ public class HomeController {
             customer = (Customer)rest.getForObject(urlCustomer,Customer.class);
         }
         catch(Exception e) {
+            System.out.println(e);
             customer.setId(1);
+            customer.setName("Hoang Duong");
         }
         
         session.setAttribute("customer", customer);
@@ -81,6 +84,12 @@ public class HomeController {
 
         model.addAttribute("listP", listP);
         return "customer/home";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.setAttribute("customer", null);
+        return "account/login";
     }
 
     

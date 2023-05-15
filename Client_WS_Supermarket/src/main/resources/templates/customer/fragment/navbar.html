@@ -20,8 +20,8 @@
 
 
         <ul class="navbar-nav ms-auto me-4 my-3 my-lg-0">
-          <li class="nav-item"><a class="nav-link me-lg-3" >Hello</a></li>
-          <li class="nav-item"><a class="nav-link me-lg-3" href="#" style="opacity: 50%">Logout</a></li>
+          <li class="nav-item"><a class="nav-link me-lg-3" th:text="Hello + ${session.customer.name}"  >Hello</a></li>
+          <li class="nav-item"><a class="nav-link me-lg-3" th:href="@{/logout}" style="opacity: 50%">Logout</a></li>
         </ul>
 
 
