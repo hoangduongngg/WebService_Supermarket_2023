@@ -17,6 +17,8 @@
         <option value="$PROJECT_DIR$/ImportBill/pom.xml" />
         <option value="$PROJECT_DIR$/ImportDetail/pom.xml" />
         <option value="$PROJECT_DIR$/Product/pom.xml" />
+        <option value="$PROJECT_DIR$/ThongKeKH/pom.xml" />
+        <option value="$PROJECT_DIR$/ThongKeFE/pom.xml" />
       </list>
     </option>
   </component>
