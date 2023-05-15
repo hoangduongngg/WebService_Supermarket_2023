@@ -144,4 +144,15 @@ public class CustomerController {
         
     }
 
+    @PostMapping("/customer-login")
+    @ResponseBody
+    public ResponseEntity<?> customerLogin(@RequestBody String email) {
+        Optional<Customer> customer = customerRepository.findByEmail(email);
+        if (customer.isPresent()) {
+            return ResponseEntity.ok(customer.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+    }
 }
