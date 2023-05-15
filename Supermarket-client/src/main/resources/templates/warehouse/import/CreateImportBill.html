@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New Import Bill</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="../../../../static/css/tmp22.css"
+          th:href="@{/css/tmp22.css}"/>
+    <script th:src="@{/js/util.js}" charset="utf-8"></script>
+</head>
+<body>
+<div class="navbar-cover">
+    <nav class="navbar">
+        <a style="margin-top:120px" class="navbar-brand" href="#">Create Import Bill</a>
+    </nav>
+</div>
+
+<div class="page-body">
+    <div class="left">
+        <div class="dropdown">
+            <a class="choose-button"
+               data-toggle="dropdown"
+               aria-haspopup="true"
+               aria-expanded="false"
+               onclick="changeDisplay('dropdown-supplier')"
+               th:text="${session.get('importBill').getSupplier() != null}? ${session.get('importBill').getSupplier().getName()} : 'Select Supplier'">
+                Demo
+            </a>
+            <div class="dropdown-menu"  id="dropdown-supplier">
+                <input class="search-field"
+                       type="text"
+                       placeholder="Search.."
+                       id="supplier-search-field"
+                       onkeyup="filterByName(this.id, 'dropdown-supplier')">
+                <form action="new-bill/set-supplier" method="post" th:each="sup: ${suppliers}">
+                    <button class="dropdown-item"
+                            style="cursor: pointer;"
+                            name="supplierId"
+                            th:value="${sup.id}"
+                            th:text="${sup.name}"/>
+                </form>
+            </div>
+        </div>
+        <hr>
+        <div class="dropdown">
+            <a id="product-name"
+                    class="choose-button"
+               data-toggle="dropdown"
+               aria-haspopup="true"
+               aria-expanded="false"
+               onclick="changeDisplay('dropdown-product')">
+                Demo
+            </a>
+            <div class="dropdown-menu"  id="dropdown-product">
+                <input class="search-field"
+                       type="text"
+                       placeholder="Search.."
+                       id="product-search-field"
+                       onkeyup="filterByName(this.id, 'dropdown-product')">
+                <a class="dropdown-item"
+                   th:onclick="'selectProduct(\'product-name\', \'dropdown-product\', \'productId\', \'productName\', ' + ${prod.id} + ', this.text)'"
+                    th:each="prod: ${products}"
+                    th:text="${prod.name}"></a>
+            </div>
+        </div>
+        <form action="new-bill/add-detail" method="post" th:object="${detail}">
+            <input type="text" id="productId" th:field="${detail.product.id}" hidden>
+            <input type="text" id="productName" th:field="${detail.product.name}" hidden>
+            <div class="product container">
+                <span>Quantity:</span>
+                <input class="product quantity" name="quantity" type="number" step="1" min="1" th:field="${detail.quantity}" required>
+            </div>
+            <div class="product container">
+                <span>Unit price:</span>
+                <input class="product price" name="price" type="number" step="0.01" min="0.01" th:field="${detail.unitPrice}"required>
+                <span>$</span>
+            </div>
+            <button class="button add">Add</button>
+        </form>
+        <hr>
+        <a class="button link" href="/warehouse/management/supplier/new">New supplier</a>
+        <a class="button link" href="#">New product</a>
+    </div>
+    <div class="right">
+            <div class="receipt">
+                <div class="container table">
+                    <ul class="responsive-table">
+                        <li class="table-header">
+                            <div class="col col-1">ID</div>
+                            <div class="col col-2">Name</div>
+                            <div class="col col-3">Unit price ($)</div>
+                            <div class="col col-4">Quantity</div>
+                        </li>
+                        <li class="table-row" th:each="detail : ${session.get('importBill').details}">
+                            <div class="col col-1">
+                                <span th:utext="${detail.product.id}">Demo</span>
+                            </div>
+                            <div class="col col-2">
+                                <span th:utext="${detail.product.name}">Demo</span>
+                            </div>
+                            <div class="col col-3">
+                                <span th:utext="${detail.unitPrice}">Demo</span>
+                            </div>
+                            <div class="col col-4">
+                                <span th:utext="${detail.quantity}">Demo</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        <div class="actions">
+            <form style="float: left; width: 50%" action="new-bill/undo" method="post">
+                <button class="button action">Undo</button>
+            </form>
+            <form style="display:flex; justify-content: right; width: 50%" action="new-bill/save" method="post">
+                <button class="button action">Save</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

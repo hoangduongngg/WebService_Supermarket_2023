@@ -7,11 +7,25 @@
     <file url="file://$PROJECT_DIR$/Client_WS_Supermarket/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Customers/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Customers/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ImportBill/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ImportBill/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ImportDetail/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ImportDetail/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/OrderDetailService/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/OrderDetailService/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/OrderService/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/OrderService/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Product/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Product/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Products/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Products/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Supermarket-client/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Supermarket-client/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Supplier/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Supplier/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/User/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/User/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Warehouse/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Warehouse/src/main/resources" charset="UTF-8" />
   </component>
 </project>
