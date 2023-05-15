@@ -7,12 +7,19 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="product" />
+        <module name="supermarket-client" />
         <module name="OrderDetailService" />
+        <module name="import-bill" />
+        <module name="warehouse" />
         <module name="Client_WS_Supermarket" />
+        <module name="import-detail" />
         <module name="demo (2)" />
-        <module name="OrderService" />
         <module name="demo (1)" />
         <module name="demo (3)" />
+        <module name="supplier" />
+        <module name="OrderService" />
+        <module name="user" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -27,6 +34,13 @@
       <module name="demo (1)" options="-parameters" />
       <module name="demo (2)" options="-parameters" />
       <module name="demo (3)" options="-parameters" />
+      <module name="import-bill" options="-parameters" />
+      <module name="import-detail" options="-parameters" />
+      <module name="product" options="-parameters" />
+      <module name="supermarket-client" options="-parameters" />
+      <module name="supplier" options="-parameters" />
+      <module name="user" options="-parameters" />
+      <module name="warehouse" options="-parameters" />
     </option>
   </component>
 </project>

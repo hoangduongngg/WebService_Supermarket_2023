@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Supplier Information</title>
+    <link rel="stylesheet"
+          href="../../../../static/css/tmp11.css"
+          th:href="@{/css/tmp11.css}"/>
+    <link rel="stylesheet"
+      href="../../../../static/css/tmp13.css"
+      th:href="@{/css/tmp13.css}"/>
+</head>
+<body>
+<div class="navbar-cover">
+    <nav class="navbar">
+        <a class="navbar-brand" href="#">Supplier Management</a>
+    </nav>
+</div>
+<h1 th:if="${supplier.id == null}">
+    New supplier
+</h1>
+<h1 th:if="${supplier.id != null}">
+    Edit supplier information
+</h1>
+<div class="menu-cover">
+    <form action="/warehouse/management/supplier/save" method="post" th:object="${supplier}">
+        <table>
+            <tr>
+                <td>ID:</td>
+                <td><input readonly th:field="${supplier.id}"></td>
+            </tr>
+            <tr>
+                <td>Name:</td>
+                <td><input th:field="${supplier.name}"></td>
+            </tr>
+            <tr>
+                <td>Phone number:</td>
+                <td><input th:field="${supplier.phoneNumber}"></td>
+            </tr>
+            <tr>
+                <td colspan="2">Description:</td>
+            </tr>
+            <tr>
+                <td colspan="2"><textarea th:field="${supplier.description}"></textarea></td>
+            </tr>
+        </table>
+        <button class="button supsub">Submit</button>
+    </form>
+</div>
+</body>
+</html>
