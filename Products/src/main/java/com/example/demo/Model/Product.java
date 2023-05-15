@@ -82,11 +82,11 @@ public class Product implements Serializable {
         this.idSupplier = productRequest.idSupplier;
     }
 
-    public Product(String name, String url, int price, int units, String expirationDate, String description) {
+    public Product(String name, String url, int price, int quantity, String expirationDate, String description) {
         this.name = name;
         this.img = url;
         this.price = price;
-        this.units = units;
+        this.quantity = quantity;
         this.expirationDate = expirationDate;
         this.description = description;
     }
