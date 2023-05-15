@@ -30,7 +30,9 @@ async function login() {
         } else if (response.ok) {
             const responseData = await response.json()
             if (responseData.role === 'customer') {
-                window.location.href = 'http://127.0.0.1:8090/'
+                // window.location.href = 'http://127.0.0.1:8090/'
+                // window.location.href = 'http://localhost:8090/'
+                window.location.href = 'http://localhost:8090'
             }
             else{
                 window.location.href = 'http://127.0.0.1:8090/product/listProduct'

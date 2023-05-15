@@ -2,6 +2,7 @@ package com.example.orderdetailservice.service;
 
 import com.example.orderdetailservice.model.DTO.Order;
 import com.example.orderdetailservice.model.DTO.OrderDetail;
+import com.example.orderdetailservice.model.DTO.Product;
 import com.example.orderdetailservice.model.entity.OrderDetailEntity;
 import com.example.orderdetailservice.repository.OrderDetailRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,40 +18,40 @@ public class OrderDetailServiceImp implements OrderDetailService{
     @Autowired
     private OrderDetailRepository orderDetailRepository;
     @Override
-    public List<OrderDetailEntity> addtoCart(Integer productId, Integer orderId, Integer customerId, Integer price) {
-        // Coi nhu da ton tai Order, neu chua thi tao o ben OrderSer
-        try {
-            Optional<OrderDetailEntity> list_od = orderDetailRepository.findByTblOrderidAndTblProductid(orderId, productId);
-            OrderDetailEntity od = new OrderDetailEntity();
-            // Da ton tai san pham trong gio hang
-            if (list_od.isPresent()) {
-                od = list_od.get();
-                od.setQuantity(od.getQuantity() +1);
-            }
-            else { //Chua ton tai
-                od.setQuantity(1);
-                od.setPrice(price);
-                od.setTblProductid(productId);
-                od.setTblOrderid(orderId);
-            }
-            orderDetailRepository.save(od);
+    public Order addtoCart(Product product, Order cart) {
+        // Coi nhu da ton tai Gio hang - Order, neu chua thi tao o ben Client
 
-            return orderDetailRepository.findByTblOrderid(orderId);
-        }
-        catch (Exception e) {
-            System.out.println("null" + e);
-            return null;
-        }
 
+
+
+        try { // Da ton tai san pham trong gio hang
+            OrderDetailEntity od_entity = orderDetailRepository.findByTblOrderidAndTblProductid(cart.getId(), product.getId());
+            if (od_entity != null) {
+                od_entity.setQuantity(od_entity.getQuantity() +1);
+            }
+            orderDetailRepository.save(od_entity);
+            System.out.println("Da ton tai trong gio hang");
+        }
+        catch (Exception e) { //Chua ton tai
+            System.out.println("Chua ton tai" + e);
+            OrderDetailEntity od_entity = new OrderDetailEntity();
+            od_entity.setQuantity(1);
+            od_entity.setPrice(product.getPrice());
+            od_entity.setTblProductid(product.getId());
+            od_entity.setTblOrderid(cart.getId());
+            orderDetailRepository.save(od_entity);
+        }
+        cart.setDetails(getListDetailsByOrder(cart.getId()));
+        return cart;
     }
 
     @Override
     public List<OrderDetailEntity> setQuantityProductInCart(Integer productId, Integer orderId, String action) {
         try {
-            Optional<OrderDetailEntity> list_od = orderDetailRepository.
+            OrderDetailEntity list_od = orderDetailRepository.
                     findByTblOrderidAndTblProductid(orderId, productId);
             try {
-                OrderDetailEntity od = list_od.get();
+                OrderDetailEntity od = list_od;
                 switch (action){
                     case "inc": od.setQuantity(od.getQuantity() +1);
                         break;
