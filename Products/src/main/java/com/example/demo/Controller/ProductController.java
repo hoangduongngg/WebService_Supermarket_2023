@@ -82,14 +82,14 @@ public class ProductController {
     public ResponseEntity<?> addProductImg(MultipartFile img,
             @RequestParam String name,
             @RequestParam int price,
-            @RequestParam int units,
+            @RequestParam int quantity,
             @RequestParam String expirationDate,
             @RequestParam String description) {
 
         Optional<Product> product = productRepository.findByName(name);
         if (!product.isPresent()) {
             if (img == null) {
-                Product newPro = new Product(name, URL, price, units, expirationDate, description);
+                Product newPro = new Product(name, URL, price, quantity, expirationDate, description);
                 productRepository.save(newPro);
                 return ResponseEntity.ok(newPro);
             } else {
@@ -104,7 +104,7 @@ public class ProductController {
                             "folder", "products",
                             "public_id", name)).get("url");
 
-                    Product newPro = new Product(name, url, price, units, expirationDate, description);
+                    Product newPro = new Product(name, url, price, quantity, expirationDate, description);
 
                     productRepository.save(newPro);
                     return ResponseEntity.ok(newPro);
@@ -126,7 +126,7 @@ public class ProductController {
             @RequestParam int id,
             @RequestParam String name,
             @RequestParam int price,
-            @RequestParam int units,
+            @RequestParam int quantity,
             @RequestParam String expirationDate,
             @RequestParam String description) {
 
@@ -136,7 +136,7 @@ public class ProductController {
                 Product newPro = product.get();
                 newPro.setName(name);
                 newPro.setPrice(price);
-                newPro.setUnits(units);
+                newPro.setquantity(quantity);
                 newPro.setDescription(description);
                 productRepository.save(newPro);
                 return ResponseEntity.ok(newPro);
@@ -155,7 +155,7 @@ public class ProductController {
                     Product newPro = product.get();
                     newPro.setName(name);
                     newPro.setPrice(price);
-                    newPro.setUnits(units);
+                    newPro.setquantity(quantity);
                     newPro.setDescription(description);
                     newPro.setImg(url);
 
