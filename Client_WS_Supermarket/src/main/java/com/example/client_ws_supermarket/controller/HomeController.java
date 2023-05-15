@@ -48,7 +48,7 @@ public class HomeController {
         catch (Exception e) {
             System.out.println(e);
             Product p = new Product();
-            p.setId(10000000);
+            p.setId(1);
             p.setName("Nike 1 '071");
             p.setImg("https://static.nike.com/a/images/t_PDP_864_v1/f_auto,b_rgb:f5f5f5/aee23c65-5ed1-4a07-aeff-180b2ad74c00/air-force-1-07-shoe-NMmm1B.png");
             p.setPrice(100);
@@ -61,8 +61,8 @@ public class HomeController {
         
         //Add fix cung du lieu -> Test FE
         Customer customer = new Customer();
-        customer.setId(29);
-        
+        customer.setId(1);
+
         session.setAttribute("customer", customer);
         model.addAttribute("listP", listP);
         return "customer/home";

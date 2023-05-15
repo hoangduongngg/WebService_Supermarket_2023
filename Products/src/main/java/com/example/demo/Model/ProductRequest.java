@@ -15,16 +15,16 @@ public class ProductRequest {
     public String img;
     public String expirationDate;
     public String description;
-    public int units;
+    public int quantity;
     public int idSupplier;
 
-    public ProductRequest(String name, int price, String img, String expirationDate, String description, int units, int idSupplier) {
+    public ProductRequest(String name, int price, String img, String expirationDate, String description, int quantity, int idSupplier) {
         this.name = name;
         this.price = price;
         this.img = img;
         this.expirationDate = expirationDate;
         this.description = description;
-        this.units = units;
+        this.quantity = quantity;
         this.idSupplier = idSupplier;
     }
     
