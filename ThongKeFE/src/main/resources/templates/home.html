@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th=http://www.thymeleaf.org>
 <head>
     <meta charset="UTF-8">
     <title>Thông kê</title>
@@ -59,6 +59,7 @@
         <td th:text="${row.count}"></td>
         <td>
             <span th:text="${customer.name}"></span>
+            <a th:href="@{thongke_customer}"
         </td>
         <td>
             <span th:text="${customer.revenue}"></span>

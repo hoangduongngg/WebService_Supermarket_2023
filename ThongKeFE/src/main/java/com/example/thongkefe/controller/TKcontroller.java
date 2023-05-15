@@ -18,7 +18,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Controller
 public class TKcontroller {
 	protected RestTemplate restTemplate=new RestTemplate();
-
+    @GetMapping("")
+    public String thongKeView() {
+        return "home";
+    }
     @GetMapping("/thongke_customer")
     public String thongKe_customer(Model model) {
         String url = "http://localhost:4000/thongke/customer";

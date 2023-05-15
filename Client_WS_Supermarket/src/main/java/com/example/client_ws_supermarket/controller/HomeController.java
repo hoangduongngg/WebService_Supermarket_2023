@@ -63,16 +63,17 @@ public class HomeController {
         System.out.println(listP);
         
         //Add fix cung du lieu -> Test FE
-<<<<<<< HEAD
-        Customer customer = new Customer();
-        customer.setId(1);
-=======
-        Account account = (Account) session.getAttribute("account");
-        String urlCustomer = "http://localhost:8082/customer?id="+account.getIdUser();
+        Customer customer = new Customer();        
+        try {
+            Account account = (Account) session.getAttribute("account");
+            String urlCustomer = "http://localhost:8082/customer?id="+account.getIdUser();
+            
+            customer = (Customer)rest.getForObject(urlCustomer,Customer.class);
+        }
+        catch(Exception e) {
+            customer.setId(1);
+        }
         
-        Customer customer = (Customer)rest.getForObject(urlCustomer,Customer.class);
-
->>>>>>> Ben_getAccount
         session.setAttribute("customer", customer);
 
         Order cart = rest.getForObject("http://localhost:8089/api/cart/{customerID}",Order.class, customer.getId());

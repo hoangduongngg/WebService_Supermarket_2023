@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author ben
  */
 @CrossOrigin
-@RestController
+@RestController("/")
 public class AccountController {
 
     @Autowired
