@@ -1,6 +1,11 @@
 package com.example.client_ws_supermarket.controller;
 
 import com.example.client_ws_supermarket.model.Product;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -76,6 +81,7 @@ public class ProductController {
         ResponseEntity<Void> response = rest.exchange(url, HttpMethod.DELETE, null, Void.class);
         return "redirect:../listProduct";
     }
+    
     
 }
 

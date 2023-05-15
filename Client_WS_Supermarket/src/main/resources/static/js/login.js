@@ -29,10 +29,29 @@ async function login() {
             console.log(responseData);
         } else if (response.ok) {
             const responseData = await response.json()
+            console.log(responseData);
+            try{
+                var savelogin = await fetch('http://127.0.0.1:8090/account/save-login', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        "id":responseData.id,
+                        "username":responseData.username,
+                        "password":responseData.password,
+                        "role":responseData.role,
+                        "isUser":responseData.idUser
+                    }),
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+            }
+            catch (err){
+                
+            }
+            
             if (responseData.role === 'customer') {
                 window.location.href = 'http://127.0.0.1:8090/'
-            }
-            else{
+            } else {
                 window.location.href = 'http://127.0.0.1:8090/product/listProduct'
             }
         }

@@ -1,5 +1,6 @@
 package com.example.client_ws_supermarket.controller;
 
+import com.example.client_ws_supermarket.model.Account;
 import com.example.client_ws_supermarket.model.Customer;
 import com.example.client_ws_supermarket.model.Product;
 import jakarta.servlet.http.HttpSession;
@@ -24,8 +25,9 @@ public class HomeController {
     @GetMapping("/")
     public String home (HttpSession session, Model model) {
         // Kiem tra neu la Admin thi chuyen den trang admin
-        if (1==0) {
-            return "admin/home";
+        Account account = (Account)session.getAttribute("account");
+        if (account.getRole() == "customer") {
+            return home_customer(session, model);
         }
         else {
             return home_customer(session, model);
@@ -60,8 +62,10 @@ public class HomeController {
         System.out.println(listP);
         
         //Add fix cung du lieu -> Test FE
-        Customer customer = new Customer();
-        customer.setId(1);
+        Account account = (Account) session.getAttribute("account");
+        String urlCustomer = "http://localhost:8082/customer?id="+account.getIdUser();
+        
+        Customer customer = (Customer)rest.getForObject(urlCustomer,Customer.class);
 
         session.setAttribute("customer", customer);
         model.addAttribute("listP", listP);
@@ -69,5 +73,4 @@ public class HomeController {
     }
 
     
-
 }
