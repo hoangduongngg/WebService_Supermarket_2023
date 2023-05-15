@@ -1,5 +1,7 @@
 package com.example.orderdetailservice.controller;
 
+import com.example.orderdetailservice.model.DTO.Order;
+import com.example.orderdetailservice.model.DTO.OrderDetail;
 import com.example.orderdetailservice.model.entity.OrderDetailEntity;
 import com.example.orderdetailservice.repository.OrderDetailRepository;
 import com.example.orderdetailservice.service.OrderDetailService;
@@ -22,9 +24,19 @@ public class OrderDetailRestController {
     @Autowired
     private OrderDetailService orderDetailService;
 
+//    @GetMapping("/{orderID}")
+//    public ResponseEntity<List<OrderDetailEntity>> listOrderDetail (@PathVariable Integer orderID) {
+//        List <OrderDetailEntity> list_od = orderDetailRepository.findByTblOrderid(orderID);
+//        if (list_od == null) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+//        } else {
+//            return ResponseEntity.status(HttpStatus.OK).body(list_od);
+//        }
+//    }
+
     @GetMapping("/{orderID}")
-    public ResponseEntity<List<OrderDetailEntity>> listOrderDetail (@PathVariable Integer orderID) {
-        List <OrderDetailEntity> list_od = orderDetailRepository.findByTblOrderid(orderID);
+    public ResponseEntity<List<OrderDetail>> getListDetails (@PathVariable Integer orderID) {
+        List<OrderDetail> list_od = orderDetailService.getListDetailsByOrder(orderID);
         if (list_od == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } else {

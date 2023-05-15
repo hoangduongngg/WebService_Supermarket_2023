@@ -1,12 +1,16 @@
 package com.example.orderdetailservice.service;
 
+import com.example.orderdetailservice.model.DTO.Order;
+import com.example.orderdetailservice.model.DTO.OrderDetail;
 import com.example.orderdetailservice.model.entity.OrderDetailEntity;
 import com.example.orderdetailservice.repository.OrderDetailRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class OrderDetailServiceImp implements OrderDetailService{
@@ -64,6 +68,16 @@ public class OrderDetailServiceImp implements OrderDetailService{
             System.out.println(e);
         }
         return orderDetailRepository.findByTblOrderid(orderId);
+    }
+
+    @Override
+    public List<OrderDetail> getListDetailsByOrder(Integer orderId) {
+        List <OrderDetailEntity> list_od_entity = orderDetailRepository.findByTblOrderid(orderId);
+        List<OrderDetail> list_details = new ArrayList<>();
+        for (OrderDetailEntity od_entity:list_od_entity) {
+            list_details.add(new OrderDetail(od_entity));
+        }
+        return list_details;
     }
 
 //    @Override

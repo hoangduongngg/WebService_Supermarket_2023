@@ -1,11 +1,7 @@
-package com.example.orderdetailservice.model.DTO;
+package com.example.orderservice.model.DTO;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-
-import java.util.Date;
 
 @Data
 @RequiredArgsConstructor

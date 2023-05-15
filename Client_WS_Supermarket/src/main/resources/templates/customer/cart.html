@@ -50,14 +50,14 @@
 
                                 <tr th:each="od : ${list_od}">
                                     <th scope="row">
-                                        <a th:href="@{product/{id}(id=${od.tblProductid})}">
+                                        <a th:href="@{product/{id}(id=${od.getProduct().id})}">
 
                                             <div class="d-flex align-items-center">
-                                                <img src="${od.product.img}" class="img-fluid rounded-3"
+                                                <img th:src="${od.getProduct().img}" class="img-fluid rounded-3"
                                                      style="width: 120px;" alt="Product">
 
                                                 <div class="flex-column ms-4">
-                                                    <p class="mb-2" style="color:#2b6054; text-decoration: none;">${od.product.name}</p>
+                                                    <p th:text="${od.getProduct().name}" class="mb-2" style="color:#2b6054; text-decoration: none;">${od.product.name}</p>
                                                 </div>
                                             </div>
                                         </a>
@@ -107,7 +107,7 @@
                                     </td>
                                 </tr>
 
-                            </c:forEach>
+<!--                            </c:forEach>-->
                             </tbody>
                         </table>
                     </div>
