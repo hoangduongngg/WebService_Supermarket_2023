@@ -33,5 +33,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer>{
     List<Product> findByPriceBetween(Integer minPrice, Integer maxPrice);
 
     List<Product> findByPriceGreaterThan(Integer minPrice);
+
+    Optional<Product> findByName(String name);
     
 }

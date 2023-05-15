@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import jakarta.persistence.*;
+
 /**
  *
  * @author ben
@@ -32,7 +33,7 @@ public class Product implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    private long id;
     @Basic(optional = false)
     @Column(name = "name")
     private String name;
@@ -77,11 +78,20 @@ public class Product implements Serializable {
         this.price = productRequest.price;
         this.quantity = productRequest.quantity;
         this.expirationDate = productRequest.expirationDate;
-        this.description=productRequest.description;
+        this.description = productRequest.description;
         this.idSupplier = productRequest.idSupplier;
     }
 
-    public Integer getId() {
+    public Product(String name, String url, int price, int units, String expirationDate, String description) {
+        this.name = name;
+        this.img = url;
+        this.price = price;
+        this.units = units;
+        this.expirationDate = expirationDate;
+        this.description = description;
+    }
+
+    public long getId() {
         return id;
     }
 
@@ -146,28 +156,8 @@ public class Product implements Serializable {
     }
 
     @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Product)) {
-            return false;
-        }
-        Product other = (Product) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
     public String toString() {
         return "com.example.demo.Model.Product[ id=" + id + " ]";
     }
-    
+
 }

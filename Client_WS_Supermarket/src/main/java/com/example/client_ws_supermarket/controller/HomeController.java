@@ -58,8 +58,7 @@ public class HomeController {
                 listP.add(p);
         }
         System.out.println(listP);
-        //Add fix cung du lieu -> Test FE
-
+        
         //Add fix cung du lieu -> Test FE
         Customer customer = new Customer();
         customer.setId(1);
@@ -69,5 +68,6 @@ public class HomeController {
         return "customer/home";
     }
 
+    
 
 }

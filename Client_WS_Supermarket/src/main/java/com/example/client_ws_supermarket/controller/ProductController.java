@@ -34,4 +34,48 @@ public class ProductController {
         model.addAttribute("p", p);
         return "customer/product";
     }
+    
+    @GetMapping("listProduct")
+    public String listProduct(Model model){
+        String url = "http://localhost:8081/products";
+        List<Product> listP = new ArrayList<>();
+        try {
+            listP = Arrays.asList(rest.getForObject(url,Product[].class));
+        }
+        catch (Exception e) {
+            System.err.println(e);
+        }
+        model.addAttribute("listP", listP);
+        return "admin/listProduct";
+    }
+    
+    @GetMapping("add-product")
+    public String viewAddProduct(){
+        return "admin/addProduct";
+    }
+    
+    @GetMapping("updateProduct/{id}")
+    public String updateProduct(Model model,@PathVariable int id){
+        Product p = new Product();
+
+        String url = "http://localhost:8081/product?id=" + id;
+        try {
+            p = rest.getForObject(url,Product.class);
+        }
+        catch(Exception e){
+            System.err.println(e);
+        }
+        model.addAttribute("p", p);
+        return "admin/updateProduct";
+    }
+    
+    @GetMapping("deleteProduct/{id}")
+    public String deletProduct(Model model,@PathVariable int id){
+        
+        String url = "http://localhost:8081/delete-product?id=" + id;
+        ResponseEntity<Void> response = rest.exchange(url, HttpMethod.DELETE, null, Void.class);
+        return "redirect:../listProduct";
+    }
+    
 }
+

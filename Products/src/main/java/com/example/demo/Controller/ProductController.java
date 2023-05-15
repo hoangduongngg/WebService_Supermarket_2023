@@ -30,16 +30,20 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 /**
  *
  * @author ben
  */
+@CrossOrigin
 @RestController
 public class ProductController {
 
     @Autowired
     private ProductRepository productRepository;
+
+    private final String URL = "https://res.cloudinary.com/dne2tjjym/image/upload/v1683571391/products/istockphoto-1055079680-612x612_tdjty9.jpg";
 
     @GetMapping("/products")
     @ResponseBody
@@ -73,48 +77,98 @@ public class ProductController {
         }
     }
 
-    @PostMapping("/update-product")
+    @PostMapping("/add-product-img")
     @ResponseBody
-    public ResponseEntity<Product> updateProduct(@RequestBody ProductRequest productRequest) {
-        Optional<Product> product = productRepository.findByNameAndIdSupplied(productRequest.name, productRequest.idSupplier);
-        if (product.isPresent()) {
-            Product newProduct = new Product(productRequest);
-            productRepository.save(newProduct);
-            return ResponseEntity.ok(newProduct);
+    public ResponseEntity<?> addProductImg(MultipartFile img,
+            @RequestParam String name,
+            @RequestParam int price,
+            @RequestParam int units,
+            @RequestParam String expirationDate,
+            @RequestParam String description) {
 
+        Optional<Product> product = productRepository.findByName(name);
+        if (!product.isPresent()) {
+            if (img == null) {
+                Product newPro = new Product(name, URL, price, units, expirationDate, description);
+                productRepository.save(newPro);
+                return ResponseEntity.ok(newPro);
+            } else {
+                try {
+                    Map<String, String> config = new HashMap<>();
+                    config.put("cloud_name", "dne2tjjym");
+                    config.put("api_key", "871314462855254");
+                    config.put("api_secret", "m_8hFHYWag6pdETWKh4_rhCkBTg");
+                    Cloudinary cloudinary = new Cloudinary(config);
+
+                    String url = (String) cloudinary.uploader().upload(img.getBytes(), ObjectUtils.asMap(
+                            "folder", "products",
+                            "public_id", name)).get("url");
+
+                    Product newPro = new Product(name, url, price, units, expirationDate, description);
+
+                    productRepository.save(newPro);
+                    return ResponseEntity.ok(newPro);
+
+                } catch (Exception e) {
+                    System.out.println(e);
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading file: " + e.getMessage());
+                }
+            }
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+
     }
-    
-    @PostMapping("/update-product/img")
+
+    @PostMapping("/update-product-img")
     @ResponseBody
-    public ResponseEntity<String> updateImgCustomer(@RequestParam("img") MultipartFile img,
-            @RequestParam Integer id) {
+    public ResponseEntity<?> updateProductImg(MultipartFile img,
+            @RequestParam int id,
+            @RequestParam String name,
+            @RequestParam int price,
+            @RequestParam int units,
+            @RequestParam String expirationDate,
+            @RequestParam String description) {
 
         Optional<Product> product = productRepository.findById(id);
         if (product.isPresent()) {
-            try {
-                Map<String, String> config = new HashMap<>();
-                config.put("cloud_name", "dne2tjjym");
-                config.put("api_key", "871314462855254");
-                config.put("api_secret", "m_8hFHYWag6pdETWKh4_rhCkBTg");
-                Cloudinary cloudinary = new Cloudinary(config);
+            if (img == null) {
+                Product newPro = product.get();
+                newPro.setName(name);
+                newPro.setPrice(price);
+                newPro.setUnits(units);
+                newPro.setDescription(description);
+                productRepository.save(newPro);
+                return ResponseEntity.ok(newPro);
+            } else {
+                try {
+                    Map<String, String> config = new HashMap<>();
+                    config.put("cloud_name", "dne2tjjym");
+                    config.put("api_key", "871314462855254");
+                    config.put("api_secret", "m_8hFHYWag6pdETWKh4_rhCkBTg");
+                    Cloudinary cloudinary = new Cloudinary(config);
 
-                String url = (String) cloudinary.uploader().upload(img.getBytes(), ObjectUtils.asMap(
-                        "folder", "products",
-                        "public_id", "product_" + id)).get("url");
-                product.get().setImg(url);
-                productRepository.save(product.get());
-                return ResponseEntity.ok("ok");
+                    String url = (String) cloudinary.uploader().upload(img.getBytes(), ObjectUtils.asMap(
+                            "folder", "products",
+                            "public_id", name)).get("url");
 
-            } catch (Exception e) {
-                System.out.println(e);
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading file: " + e.getMessage());
+                    Product newPro = product.get();
+                    newPro.setName(name);
+                    newPro.setPrice(price);
+                    newPro.setUnits(units);
+                    newPro.setDescription(description);
+                    newPro.setImg(url);
+
+                    productRepository.save(newPro);
+                    return ResponseEntity.ok(newPro);
+
+                } catch (Exception e) {
+                    System.out.println(e);
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading file: " + e.getMessage());
+                }
             }
-        }
-        else{
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } else {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
 
     }
@@ -133,30 +187,27 @@ public class ProductController {
 
     @GetMapping("/search-product")
     @ResponseBody
-    public List<Product> searchProductByName(   @RequestParam String keyword,
-                                                @RequestParam Integer minPrice,
-                                                @RequestParam Integer maxPrice) {
-        
+    public List<Product> searchProductByName(@RequestParam String keyword,
+            @RequestParam Integer minPrice,
+            @RequestParam Integer maxPrice) {
+
         if (minPrice < 0) {
             minPrice = 0;
         }
-        if(maxPrice <= 0){
-            if(keyword == null){
+        if (maxPrice <= 0) {
+            if (keyword == null) {
                 return productRepository.findByPriceGreaterThan(minPrice);
-            }
-            else{
+            } else {
                 return productRepository.findByNameContainingIgnoreCaseAndPriceGreaterThan(keyword, minPrice);
             }
-        }
-        else{
-            if(keyword == null){
+        } else {
+            if (keyword == null) {
                 return productRepository.findByPriceBetween(minPrice, maxPrice);
-            }
-            else{
-                return productRepository.findByNameContainingIgnoreCaseAndPriceBetween(keyword, minPrice,maxPrice);
+            } else {
+                return productRepository.findByNameContainingIgnoreCaseAndPriceBetween(keyword, minPrice, maxPrice);
             }
         }
-        
+
     }
 
 }
