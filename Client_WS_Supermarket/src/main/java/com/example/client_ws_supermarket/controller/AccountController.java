@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,6 +28,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  *
  * @author ben
  */
+@CrossOrigin
 @Controller
 @RequestMapping("account")
 public class AccountController {
@@ -41,6 +43,7 @@ public class AccountController {
     @PostMapping("save-login")
     public String doLogin(HttpSession session, @RequestBody Account account) {
         session.setAttribute("account", account);
+        System.out.println("Save account");
         
         return "account/login";
     }
