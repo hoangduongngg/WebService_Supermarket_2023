@@ -48,4 +48,12 @@ public class OrderController {
 
         return "customer/waitingforpayment";
     }
+
+    @GetMapping("pay")
+    public String payment_Paypal(HttpSession session) {
+        Order order = (Order) session.getAttribute("order");
+        System.out.println("Đã chạy được đến Pay Client");
+        String pay_link = rest.postForObject("http://localhost:8089/pay",order, String.class);
+        return pay_link;
+    }
 }
