@@ -79,8 +79,8 @@ public class HomeController {
         
         session.setAttribute("customer", customer);
 
-        Order cart = rest.getForObject("http://localhost:8089/api/cart/{customerID}",Order.class, customer.getId());
-        session.setAttribute("order", cart);
+//        Order cart = rest.getForObject("http://localhost:8089/api/cart/{customerID}",Order.class, customer.getId());
+//        session.setAttribute("order", cart);
 
         model.addAttribute("listP", listP);
         return "customer/home";

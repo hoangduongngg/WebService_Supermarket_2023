@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public interface OrderDetailService {
     Order addtoCart (Product product, Order cart);
-    List<OrderDetailEntity> setQuantityProductInCart (Integer productId, Integer orderId, String action);
+    Order setQuantityProductInCart (Product product, Order cart, String action);
 
     List<OrderDetail> getListDetailsByOrder (Integer orderId);
 }

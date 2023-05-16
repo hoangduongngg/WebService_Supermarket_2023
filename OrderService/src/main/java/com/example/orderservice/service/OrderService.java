@@ -7,5 +7,6 @@ import org.springframework.stereotype.Service;
 @Service
 public interface OrderService {
     Order getCartByCustomerId (Integer id);
-//    Order SetTotalAmount (Order order);
+    Order checkout(Order order);
+    Order waitingforpayment(Order order);
 }

@@ -54,10 +54,40 @@ public class CartController {
         System.out.println(productId);
         Customer customer = (Customer) session.getAttribute("customer");
         Product product = rest.getForObject("http://localhost:8081/product?id=" + productId ,Product.class);
+
+        Order cart = rest.getForObject("http://localhost:8089/api/cart/{customerID}",Order.class, customer.getId());
+        try {
+            OrderProductRequest request = new OrderProductRequest(cart, product);
+            cart = rest.postForObject("http://localhost:8088/api/details/addtocart", request, Order.class );
+            session.setAttribute("order", cart);
+
+            List<OrderDetail> list_od = cart.getDetails();
+            model.addAttribute("list_od", list_od);
+
+            System.out.println(cart.getStatusOrder());
+            System.out.println(list_od);
+        }
+        catch (Exception e) {
+            System.out.println(e);
+        }
+
+        return "customer/cart";
+    }
+
+    @GetMapping ("setQuantity/{action}/{productId}")
+    public String setQuantity (HttpSession session,
+                            Model model,
+//                            @RequestBody Product product,
+                               @PathVariable Integer productId,
+                            @PathVariable String action) {
+        System.out.println("Run set Quan");
+
+        Customer customer = (Customer) session.getAttribute("customer");
+        Product product = rest.getForObject("http://localhost:8081/product?id=" + productId ,Product.class);
         Order order = (Order) session.getAttribute("order");
         try {
             OrderProductRequest request = new OrderProductRequest(order, product);
-            Order cart = rest.postForObject("http://localhost:8088/api/details/addtocart", request, Order.class );
+            Order cart = rest.postForObject("http://localhost:8088/api/details/setQuantity", request + action, Order.class );
             session.setAttribute("order", cart);
 
             List<OrderDetail> list_od = cart.getDetails();

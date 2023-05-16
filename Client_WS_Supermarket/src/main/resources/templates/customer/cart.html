@@ -66,7 +66,7 @@
                                     <td class="align-middle">
                                         <div class="d-flex flex-row">
 
-                                            <a href="doIncRecDel.jsp?action=rec&OrderDetailID=${od.id}">
+                                            <a th:href="@{/cart/setQuantity/rec/{productId}(productId=${od.getProduct().getId()})}">
 
                                                 <button class="btn btn-link px-2"
                                                         onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
@@ -126,7 +126,7 @@
                                 <div class="col-lg-4 col-xl-3">
                                     <div class="d-flex justify-content-between" style="font-weight: 500;">
                                         <p class="mb-2">Subtotal</p>
-                                        <p class="mb-2"> ${order.totalAmount} $</p>
+                                        <p th:text="${session.order.getTotalOrder()}" class="mb-2"> ${order.totalAmount} $</p>
                                     </div>
 
                                     <div class="d-flex justify-content-between" style="font-weight: 500;">
@@ -138,10 +138,10 @@
 
                                     <div class="d-flex justify-content-between mb-4" style="font-weight: 500;">
                                         <p class="mb-2">Total </p>
-                                        <p class="mb-2">${order.totalAmount} $</p>
+                                        <p th:text="${session.order.getTotalOrder()}" class="mb-2">${order.totalAmount} $</p>
                                     </div>
 
-                                    <a href="doBuy.jsp">
+                                    <a  th:href="@{/order/checkout}">
                                         <button type="button" class="btn btn-primary btn-block btn-lg" style="background-color:#2b6054; color: white;">
                                             <div class="d-flex justify-content-between">
                                                 <span>Checkout now!</span>
