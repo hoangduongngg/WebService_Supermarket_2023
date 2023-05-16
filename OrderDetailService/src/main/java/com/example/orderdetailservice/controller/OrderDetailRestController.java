@@ -55,17 +55,31 @@ public class OrderDetailRestController {
         System.out.println("Da gui duoc product:" + product.getName());
 
         Order cart = orderDetailService.addtoCart(product, order);
-        System.out.println(cart.getDetails());
-        return ResponseEntity.status(HttpStatus.OK).body(cart);
+
+        if (cart == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } else {
+            System.out.println(cart.getDetails());
+            return ResponseEntity.status(HttpStatus.OK).body(cart);
+        }
     }
 
-    @PostMapping("/setQuantity")
-    public ResponseEntity<List<OrderDetailEntity>> SetQuantityProductInCart (
-            @RequestParam("productId") Integer productId,
-            @RequestParam("orderId") Integer orderId,
+    @PostMapping(value = "/setQuantity", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Order> SetQuantityProductInCart (
+            @RequestBody OrderProductRequest request,
             @RequestParam ("action") String action) {
+        Order order = request.getOrder();
+        Product product = request.getProduct();
+        System.out.println("Da gui duoc order:" + order.getStatusOrder());
+        System.out.println("Da gui duoc product:" + product.getName());
 
-        List<OrderDetailEntity> list_od = orderDetailService.setQuantityProductInCart(productId, orderId, action);
-        return ResponseEntity.status(HttpStatus.OK).body(list_od);
+        Order cart = orderDetailService.setQuantityProductInCart(product, order, action);
+        System.out.println(cart);
+        if (cart == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } else {
+            System.out.println(cart.getDetails());
+            return ResponseEntity.status(HttpStatus.OK).body(cart);
+        }
     }
 }
