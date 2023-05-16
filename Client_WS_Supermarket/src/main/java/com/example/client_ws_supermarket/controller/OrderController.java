@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.client.RestTemplate;
@@ -53,7 +54,17 @@ public class OrderController {
     public String payment_Paypal(HttpSession session) {
         Order order = (Order) session.getAttribute("order");
         System.out.println("Đã chạy được đến Pay Client");
-        String pay_link = rest.postForObject("http://localhost:8089/pay",order, String.class);
-        return pay_link;
+        try {
+            String pay_link = rest.getForObject("http://localhost:8089/pay?orderId=" + order.getId(), String.class);
+            if (pay_link == null) {
+                System.out.println("pay_link return null");
+            }
+            return pay_link;
+        }
+        catch (Exception e) {
+            System.out.println("");
+            return "customer/waitingforpayment";
+        }
+
     }
 }

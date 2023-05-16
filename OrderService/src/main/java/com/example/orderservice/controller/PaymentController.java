@@ -43,15 +43,16 @@ public class PaymentController {
 
     // http://localhost:8000/pay
     @PostMapping("/pay")
-    public String payment(@RequestBody Order order) {
-        System.out.println("Đã chạy được đến Pay Service" + order);
+    public String payment(@RequestParam int orderId) {
+        OrderEntity orderEntity = orderRepository.findById(orderId);
+        Order order = new Order(orderEntity);
+        System.out.println("Đã chạy được đến Pay Service: " + order);
 
         String token = "";
         try {
 //            OrderEntity order = orderRepository.findOrderEntityById(orderId);
             Payment payment = payWithPaypalService.createPayment(
-//                    order.getTotalOrder().doubleValue() / 23447,
-                    order.getTotalOrder().doubleValue() ,
+                    order.getTotalOrder().doubleValue() / 23447,
                     "USD",
                     "paypal",
                     "order",
@@ -72,7 +73,7 @@ public class PaymentController {
 //                    paymentDetails.setToken(token);
 //                    paymentDetailsRepository.save(paymentDetails);
 
-                    OrderEntity orderEntity = orderRepository.findById(order.getId());
+//                    OrderEntity orderEntity = orderRepository.findById(order.getId());
                     orderEntity.setStatusOrder(token);
                     orderRepository.save(orderEntity);
                     return link.getHref();
