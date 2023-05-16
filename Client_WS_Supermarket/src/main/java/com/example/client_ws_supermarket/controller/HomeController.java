@@ -16,40 +16,59 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 @RequestMapping("")
 public class HomeController {
+
     protected RestTemplate rest = new RestTemplate();
 
-
     @GetMapping("/")
-    public String home (HttpSession session, Model model) {
+    public String home(HttpSession session, Model model) {
         // Kiem tra neu la Admin thi chuyen den trang admin
-//        Account account = (Account)session.getAttribute("account");
-//        if (account.getRole() == "customer") {
-//            return home_customer(session, model);
-//        }
-//        else {
-//            return home_customer(session, model);
-//        }
-        return home_customer(session, model);
+        Account account = (Account)session.getAttribute("account");
+        System.out.println(account);
+        if (account.getRole().equalsIgnoreCase("customer")) {
+            return home_customer(session, model);
+        }
+        else if(account.getRole().equalsIgnoreCase("manager")){
+            return "redirect:manager";
+        }else{
+            return "redirect:admin";
+        }
+        
+    }
+    
+    @GetMapping("admin")
+    public RedirectView adminRedirect() {
+        String externalUrl = "http://localhost:8099"; // Thay thế đường dẫn bằng trang bạn muốn chuyển hướng
+        return new RedirectView(externalUrl);
+    }
+    
+    @GetMapping("manager")
+    public RedirectView managerRedirect() {
+        String externalUrl = "http://localhost:4001"; // Thay thế đường dẫn bằng trang bạn muốn chuyển hướng
+        return new RedirectView(externalUrl);
     }
 
-    @PostMapping ("/")
-    public String search_home (HttpSession session, Model model, @RequestParam String txtSearch) {
+    @PostMapping("/")
+    public String search_home(HttpSession session, Model model, @RequestParam String txtSearch) {
         System.out.println(txtSearch);
         model.addAttribute("txtSearch", txtSearch);
+        
+        
+        
         return home_customer(session, model);
     }
 
-    private String home_customer (HttpSession session, Model model) {
+    private String home_customer(HttpSession session, Model model) {
         String url = "http://localhost:8081/products";
         List<Product> listP = new ArrayList<>();
         try {
-            listP = Arrays.asList(rest.getForObject(url,Product[].class));
-        }
-        catch (Exception e) {
+            listP = Arrays.asList(rest.getForObject(url, Product[].class));
+        } catch (Exception e) {
             System.out.println(e);
             Product p = new Product();
             p.setId(1);
@@ -58,30 +77,37 @@ public class HomeController {
             p.setPrice(100);
             p.setDescription("The radiance lives on in the Nike Air Force 1 '07, the b-ball icon that puts a fresh spin on what you know best: crisp leather, bold colours and the perfect amount of flash to make you shine.");
 
-            for (int i=0; i<10; i++)
+            for (int i = 0; i < 10; i++) {
                 listP.add(p);
+            }
         }
         System.out.println(listP);
-        
+
         //Add fix cung du lieu -> Test FE
-        Customer customer = new Customer();        
-        try {
-            Account account = (Account) session.getAttribute("account");
-            String urlCustomer = "http://localhost:8082/customer?id="+account.getIdUser();
-            
-            customer = (Customer)rest.getForObject(urlCustomer,Customer.class);
-        }
-        catch(Exception e) {
-            System.out.println(e);
-            customer.setId(1);
-            customer.setName("Hoang Duong");
-        }
+        Account account =(Account) session.getAttribute("account");
+        System.out.println(account);
         
+        String urlCustomer = "http://localhost:8082/customer?id="+account.getIdUser();
+        ResponseEntity<Customer> responseEntity;
+        responseEntity = rest.getForEntity(urlCustomer, Customer.class);
+        Customer customer = responseEntity.getBody();
+        
+//        try {
+//            customer = (Customer) session.getAttribute("customer");
+//            System.out.println(customer);
+//        } catch (Exception e) {
+//            System.out.println(e);
+//            customer.setId(1);
+//            customer.setName("Hoang Duong");
+//        }
+
+        try {
+            Order cart = rest.getForObject("http://localhost:8089/api/cart/{customerID}", Order.class, customer.getId());
+            session.setAttribute("order", cart);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         session.setAttribute("customer", customer);
-
-        Order cart = rest.getForObject("http://localhost:8089/api/cart/{customerID}",Order.class, customer.getId());
-        session.setAttribute("order", cart);
-
         model.addAttribute("listP", listP);
         return "customer/home";
     }
@@ -92,5 +118,4 @@ public class HomeController {
         return "account/login";
     }
 
-    
 }

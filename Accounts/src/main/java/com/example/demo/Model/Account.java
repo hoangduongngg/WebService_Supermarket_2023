@@ -134,7 +134,7 @@ public class Account implements Serializable {
 
     @Override
     public String toString() {
-        return "com.example.demo.Model.Account[ id=" + id + " ]";
+        return this.id + " " + this.username + " " + this.password + " " + this.role + " " + this.idUser;
     }
     
 }

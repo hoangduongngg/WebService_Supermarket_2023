@@ -7,6 +7,7 @@ package com.example.client_ws_supermarket.controller;
 
 import com.example.client_ws_supermarket.model.Account;
 import com.example.client_ws_supermarket.model.Account;
+import com.example.client_ws_supermarket.model.Customer;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -15,6 +16,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,25 +39,28 @@ public class AccountController {
     protected RestTemplate rest = new RestTemplate();
 
     @GetMapping("login")
-    public String login() {
+    public String login(HttpSession session) {
         return "account/login";
     }
 
-//    @GetMapping("warehouse")
-//    public String warehouse() {
-//        return "";
-//    }
+    @PostMapping("login")
+    public String doLogin(HttpSession session, @RequestParam("username") String username, @RequestParam("password") String password) {
 
-    @PostMapping("save-login")
-    public String doLogin(HttpSession session, @RequestBody Account account) {
-        session.setAttribute("account", account);
-        System.out.println("Save account");
-        
-        return "account/login";
+        String url = "http://localhost:8080/login?username=" + username + "&password=" + password;
+        ResponseEntity<Account> responseEntity;
+        try {
+            responseEntity = rest.getForEntity(url, Account.class);
+            session.setAttribute("account", responseEntity.getBody());
+            System.out.println(responseEntity.getBody());
+            return "redirect:./";
+        } catch (Exception e) {
+            return "account/login";
+        }
+
     }
-    
+
     @GetMapping("register")
-    public String register(){
+    public String register() {
         return "account/register";
     }
 }
