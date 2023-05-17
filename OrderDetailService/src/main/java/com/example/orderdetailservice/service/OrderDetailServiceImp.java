@@ -47,9 +47,9 @@ public class OrderDetailServiceImp implements OrderDetailService{
             OrderDetailEntity od_entity = orderDetailRepository.
                         findByTblOrderidAndTblProductid(order.getId(), product.getId());
             switch (action){
-                case "inc": od_entity.setQuantity(od_entity.getQuantity() +1);
+                case "increase": od_entity.setQuantity(od_entity.getQuantity() +1);
                     break;
-                case "red": od_entity.setQuantity(od_entity.getQuantity() -1 );
+                case "reduce": od_entity.setQuantity(od_entity.getQuantity() -1 );
                     break;
                 case "delete": od_entity.setQuantity(0);
                     break;

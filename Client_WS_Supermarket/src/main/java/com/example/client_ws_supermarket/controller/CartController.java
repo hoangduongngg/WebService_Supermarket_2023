@@ -59,7 +59,7 @@ public class CartController {
         }
         //Add Product to Cart
         try {
-            OrderProductRequest request = new OrderProductRequest(cart, product);
+            OrderProductRequest request = new OrderProductRequest(cart, product, null);
             cart = rest.postForObject("http://localhost:8088/api/details/addtocart", request, Order.class );
         }
         catch (Exception e) {
@@ -67,36 +67,28 @@ public class CartController {
         }
 
         session.setAttribute("order", cart);
-        return new RedirectView("cart");
+        return new RedirectView("/cart");
     }
 
     @GetMapping ("setQuantity/{action}/{productId}")
-    public String setQuantity (HttpSession session,
-                            Model model,
-//                            @RequestBody Product product,
-                               @PathVariable Integer productId,
-                            @PathVariable String action) {
-        System.out.println("Run set Quan");
-
+    public RedirectView setQuantity (HttpSession session,
+                                     @PathVariable String action,
+                                     @PathVariable Integer productId)
+    {
         Customer customer = (Customer) session.getAttribute("customer");
         Product product = rest.getForObject("http://localhost:8081/product?id=" + productId ,Product.class);
         Order order = (Order) session.getAttribute("order");
+
         try {
-            OrderProductRequest request = new OrderProductRequest(order, product);
-            Order cart = rest.postForObject("http://localhost:8088/api/details/setQuantity", request + action, Order.class );
+            OrderProductRequest request = new OrderProductRequest(order, product, action);
+            Order cart = rest.postForObject("http://localhost:8088/api/details/setQuantity", request, Order.class );
             session.setAttribute("order", cart);
-
-            List<OrderDetail> list_od = cart.getDetails();
-            model.addAttribute("list_od", list_od);
-
-            System.out.println(cart.getStatusOrder());
-            System.out.println(list_od);
         }
         catch (Exception e) {
-            System.out.println(e);
+            System.out.println("Chua thuc hien tang giam");
         }
 
-        return "customer/cart";
+        return new RedirectView("/cart");
     }
 
     @GetMapping("checkout")
