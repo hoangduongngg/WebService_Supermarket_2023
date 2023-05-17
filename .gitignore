@@ -1,2 +1,5 @@
 /Products/target/
 application.properties
+spring.datasource.url = jdbc:mysql://localhost:3306/products
+spring.datasource.username = root
+spring.datasource.password = 1234
