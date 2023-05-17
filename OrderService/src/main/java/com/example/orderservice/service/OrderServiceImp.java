@@ -18,11 +18,17 @@ public class OrderServiceImp implements OrderService{
     @Override
     public Order getCartByCustomerId (Integer id) {
         Optional<OrderEntity> order_entity = orderRepository.findByTblCustomeridAndStatusOrder(id, "cart");
-        if (order_entity.isPresent()) {
+        if (order_entity.isPresent()) { //Da co gio hang
             Order order = new Order(order_entity.get());
             return order;
         }
-        else return null;
+        else {
+            OrderEntity orderEntity = new OrderEntity();
+            orderEntity.setStatusOrder("cart");
+            orderEntity.setTblCustomerid(id);
+            orderRepository.save(orderEntity);
+            return new Order(orderEntity);
+        }
 
     }
 
