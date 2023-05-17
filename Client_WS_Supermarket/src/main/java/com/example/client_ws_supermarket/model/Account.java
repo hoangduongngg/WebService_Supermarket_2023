@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package com.example.client_ws_supermarket.model;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -56,21 +57,11 @@ public class Account implements Serializable {
     private int idUser;
 
     public Account() {
-    }
-
-    public Account(Integer id) {
-        this.id = id;
+        // Hàm tạo mặc định
     }
 
     public Account(int id, String username, String password, String role, int idUser) {
         this.id = id;
-        this.username = username;
-        this.password = password;
-        this.role = role;
-        this.idUser = idUser;
-    }
-
-    public Account(String username, String password, String role, int idUser) {
         this.username = username;
         this.password = password;
         this.role = role;
@@ -91,6 +82,7 @@ public class Account implements Serializable {
 
     public void setUsername(String username) {
         this.username = username;
+
     }
 
     public String getPassword() {
@@ -139,7 +131,7 @@ public class Account implements Serializable {
 
     @Override
     public String toString() {
-        return "com.example.demo.Model.Account[ id=" + id + " ]";
+        return this.id + " " + this.username + " " + this.password + " " + this.role + " " + this.idUser;
     }
-    
+
 }

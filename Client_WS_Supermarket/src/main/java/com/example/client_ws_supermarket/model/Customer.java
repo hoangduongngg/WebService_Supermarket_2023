@@ -144,7 +144,7 @@ public class Customer implements Serializable {
 
     @Override
     public String toString() {
-        return "com.example.demo.Model.Customer[ id=" + id + " ]";
+        return id + " " + name + " " + address + " " + email + " " + phoneNumber + " " + img + " " + birthday;
     }
     
 }

@@ -36,6 +36,18 @@ public class AccountController {
 
     @Autowired
     private AccountRepository accountRepository;
+    
+    @GetMapping("/account")
+    @ResponseBody
+    public Account getAccount(@RequestParam int id){
+        Optional<Account> account = accountRepository.findById(id);
+        if(account.isPresent()){
+            return account.get();
+        }
+        else{
+            return new Account();
+        }
+    }
 
     @GetMapping("/check-username")
     @ResponseBody
@@ -64,10 +76,10 @@ public class AccountController {
 
     }
 
-    @PostMapping("/login")
+    @GetMapping("/login")
     @ResponseBody
-    public ResponseEntity<?> login(@RequestBody AccountDTO accountDTO) {
-        Optional<Account> account = accountRepository.findByUsernameAndPassword(accountDTO.username, accountDTO.password);
+    public ResponseEntity<?> login(@RequestParam String username, @RequestParam String password) {
+        Optional<Account> account = accountRepository.findByUsernameAndPassword(username, password);
         if (account.isPresent()) {
             return ResponseEntity.ok(account.get());
         } else {
