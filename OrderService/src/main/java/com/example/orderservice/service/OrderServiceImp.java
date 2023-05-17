@@ -35,7 +35,7 @@ public class OrderServiceImp implements OrderService{
     @Override
     public Order checkout(Order order) {
         try {
-            OrderEntity orderEntity = orderRepository.findById(order.getId());
+            OrderEntity orderEntity = orderRepository.findOrderEntityById(order.getId());
             orderEntity.setOrderDate(getCurrentDate());
             orderEntity.setStatusOrder("order");
             orderRepository.save(orderEntity);
@@ -52,7 +52,7 @@ public class OrderServiceImp implements OrderService{
     public Order waitingforpayment(Order order) {
         //Chuyen sang trang thanh toan
         try {
-            OrderEntity orderEntity = orderRepository.findById(order.getId());
+            OrderEntity orderEntity = orderRepository.findOrderEntityById(order.getId());
             orderEntity.setStatusOrder("waitingforpayment");
             orderRepository.save(orderEntity);
             System.out.println("Order Servcie: Waiting for payment thanh cong luc: " + orderEntity.getStatusOrder());

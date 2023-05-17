@@ -23,14 +23,11 @@ import java.util.Date;
 
 
 @RestController
-@RequestMapping("")
+@RequestMapping("/")
 @CrossOrigin("*")
 public class PaymentController {
     public static final String PAYPAL_SUCCESS_URL = "pay/success";
     public static final String PAYPAL_CANCEL_URL = "pay/cancel";
-//
-//    @Autowired
-//    private PaymentDetailsRepository paymentDetailsRepository;
 
     @Autowired
     private OrderRepository orderRepository;
@@ -44,18 +41,19 @@ public class PaymentController {
     // http://localhost:8000/pay
     @PostMapping("/pay")
     public String payment(@RequestParam int orderId) {
-        OrderEntity orderEntity = orderRepository.findById(orderId);
-        Order order = new Order(orderEntity);
-        System.out.println("Đã chạy được đến Pay Service: " + order);
 
         String token = "";
         try {
+            OrderEntity orderEntity = orderRepository.findOrderEntityById(orderId);
+            Order order = new Order(orderEntity);
+            System.out.println("Đã chạy được đến Pay Service: " + order);
+            System.out.println(order.getTotalOrder());
 //            OrderEntity order = orderRepository.findOrderEntityById(orderId);
             Payment payment = payWithPaypalService.createPayment(
-                    order.getTotalOrder().doubleValue() / 23447,
+                    (double) (order.getTotalOrder()),
                     "USD",
                     "paypal",
-                    "order",
+                    "sale",
                     "thanh toan hoa don",
                     "http://localhost:8089/" + PAYPAL_CANCEL_URL,
                     "http://localhost:8089/" + PAYPAL_SUCCESS_URL);
