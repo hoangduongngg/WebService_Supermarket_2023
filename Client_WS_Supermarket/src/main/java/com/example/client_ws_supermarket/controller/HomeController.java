@@ -37,17 +37,17 @@ public class HomeController {
     }
 
     @PostMapping ("/")
-    public String search_home (HttpSession session, Model model, @RequestParam String txtSearch) {
-        System.out.println(txtSearch);
-        model.addAttribute("txtSearch", txtSearch);
+    public String search_home (HttpSession session, Model model, @RequestParam String keyword) {
+        System.out.println(keyword);
+        model.addAttribute("keyword", keyword);
         return home_customer(session, model);
     }
 
     private String home_customer (HttpSession session, Model model) {
-        String url = "http://localhost:8081/products";
         List<Product> listP = new ArrayList<>();
+
         try {
-            listP = Arrays.asList(rest.getForObject(url,Product[].class));
+            listP = Arrays.asList(rest.getForObject("http://localhost:8081/products",Product[].class));
         }
         catch (Exception e) {
             System.out.println(e);
@@ -60,6 +60,15 @@ public class HomeController {
 
             for (int i=0; i<10; i++)
                 listP.add(p);
+        }
+
+        try {
+            String keyword = model.getAttribute("keyword").toString();
+            if (keyword != null) {
+                listP = Arrays.asList(rest.getForObject("http://localhost:8081/search?keyword="+keyword, Product[].class));
+            }
+        }catch (Exception e) {
+            System.out.println(e);
         }
         System.out.println(listP);
         
