@@ -66,12 +66,14 @@ public class OrderDetailRestController {
 
     @PostMapping(value = "/setQuantity", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Order> SetQuantityProductInCart (
-            @RequestBody OrderProductRequest request,
-            @RequestParam ("action") String action) {
+            @RequestBody OrderProductRequest request) {
         Order order = request.getOrder();
         Product product = request.getProduct();
+        String action = request.getAction();
         System.out.println("Da gui duoc order:" + order.getStatusOrder());
         System.out.println("Da gui duoc product:" + product.getName());
+        System.out.println("Da gui duoc action:" + action);
+
 
         Order cart = orderDetailService.setQuantityProductInCart(product, order, action);
         System.out.println(cart);
