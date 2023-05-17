@@ -14,11 +14,15 @@ import java.util.Map;
 public class PaypalConfig {
 
 //    @Value("${paypal.client.id}")
-    private String clientSecret = "EJRDoyPnJfCVFMRnsmpNA-jakD84FV6dsM5jZubf3aUKA3v-0CfhHCpeBnj5mbI71wuqNUgHY5SQDe4i";
+//    private String clientSecret;
 //    @Value("${paypal.client.secret}")
-    private String clientId = "AcxOe4WrJm2bvd5PrfvkGXayDLrSTq3NiI_j-gA47X-1GD1CfP3RpMRu389hrqE3btRV0VQBgEdWs1Py";
+//    private String clientId;
 //    @Value("${paypal.mode}")
-    private String mode = "sandbox";
+//    private String mode;
+
+    private String clientId="AfhFyzOMaULltBu7IyBMMaclrG1NfZuEfOIheOEaxffXpcUxV7nTVbsAtA2Qs4_173t6qkvjb3vZSgi4";
+    private String clientSecret="EKRsCp0E3KFXHWQCZMXLymHqTor9jU8viGmHd85FIKxzNYXzmiz2x841K4CwLF2SS7ncOyjlzY77Pm8B";
+    private String mode="sandbox";
 
     public Map paypalConfig() {
         Map configMap = new HashMap<>();
@@ -35,6 +39,7 @@ public class PaypalConfig {
     public APIContext apiContext() throws PayPalRESTException {
         APIContext context = new APIContext(oAuthTokenCredential().getAccessToken());
         context.setConfigurationMap(paypalConfig());
+//        APIContext context = new APIContext(clientId, clientSecret, mode);
         return context;
     }
 }
