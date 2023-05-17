@@ -20,10 +20,6 @@ public class OrderDetailServiceImp implements OrderDetailService{
     @Override
     public Order addtoCart(Product product, Order cart) {
         // Coi nhu da ton tai Gio hang - Order, neu chua thi tao o ben Client
-
-
-
-
         try { // Da ton tai san pham trong gio hang
             OrderDetailEntity od_entity = orderDetailRepository.findByTblOrderidAndTblProductid(cart.getId(), product.getId());
             if (od_entity != null) {
@@ -46,29 +42,32 @@ public class OrderDetailServiceImp implements OrderDetailService{
     }
 
     @Override
-    public List<OrderDetailEntity> setQuantityProductInCart(Integer productId, Integer orderId, String action) {
+    public Order setQuantityProductInCart(Product product, Order order, String action) {
         try {
-            OrderDetailEntity list_od = orderDetailRepository.
-                    findByTblOrderidAndTblProductid(orderId, productId);
-            try {
-                OrderDetailEntity od = list_od;
-                switch (action){
-                    case "inc": od.setQuantity(od.getQuantity() +1);
-                        break;
-                    case "red": od.setQuantity(od.getQuantity() -1 );
-                        break;
-                    case "delete": od.setQuantity(0);
-                        break;
-                }
+            OrderDetailEntity od_entity = orderDetailRepository.
+                        findByTblOrderidAndTblProductid(order.getId(), product.getId());
+            switch (action){
+                case "increase": od_entity.setQuantity(od_entity.getQuantity() +1);
+                    break;
+                case "reduce": od_entity.setQuantity(od_entity.getQuantity() -1 );
+                    break;
+                case "delete": od_entity.setQuantity(0);
+                    break;
             }
-            catch (Exception e) {
-                System.out.println(e);
+
+            if (od_entity.getQuantity()<=0) {
+                orderDetailRepository.delete(od_entity);
+            }
+            else {
+                orderDetailRepository.save(od_entity);
             }
         }
         catch (Exception e) {
             System.out.println(e);
         }
-        return orderDetailRepository.findByTblOrderid(orderId);
+
+        order.setDetails(getListDetailsByOrder(order.getId()));
+        return order;
     }
 
     @Override

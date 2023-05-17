@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.net.http.HttpHeaders;
 import java.util.Arrays;
@@ -22,55 +23,72 @@ public class CartController {
 
 
     @GetMapping("")
-    public String cartView(HttpSession session,
-//                           @SessionAttribute Customer customer,
-                           Model model) {
+    public String cartView(HttpSession session) {
         Customer customer = (Customer) session.getAttribute("customer");
-        System.out.println(customer);
-
-
-//        Customer customer = new Customer();
-//        customer.setId(29);
+        Order cart = new Order();
         try {
-            Order cart = rest.getForObject("http://localhost:8089/api/cart/{customerID}",Order.class, customer.getId());
-            List<OrderDetail> list_od = cart.getDetails();
-            model.addAttribute("list_od", list_od);
-            session.setAttribute("order", cart);
-
-            System.out.println(cart.getStatusOrder());
-            System.out.println(list_od);
+            cart = rest.getForObject("http://localhost:8089/api/cart/{customerID}",Order.class, customer.getId());
         }
         catch (Exception e) {
             System.out.println(e);
         }
 
+        session.setAttribute("order", cart);
         return "customer/cart";
     }
 
     @GetMapping ("addtocart/{productId}")
-    public String addtocart(HttpSession session,
-                            Model model,
+    public RedirectView addtocart(HttpSession session,
                             @PathVariable Integer productId) {
-        System.out.println(productId);
         Customer customer = (Customer) session.getAttribute("customer");
-        Product product = rest.getForObject("http://localhost:8081/product?id=" + productId ,Product.class);
-        Order order = (Order) session.getAttribute("order");
+        //Get Product
+        Product product = new Product();
         try {
-            OrderProductRequest request = new OrderProductRequest(order, product);
-            Order cart = rest.postForObject("http://localhost:8088/api/details/addtocart", request, Order.class );
-            session.setAttribute("order", cart);
-
-            List<OrderDetail> list_od = cart.getDetails();
-            model.addAttribute("list_od", list_od);
-
-            System.out.println(cart.getStatusOrder());
-            System.out.println(list_od);
+            product = rest.getForObject("http://localhost:8081/product?id=" + productId ,Product.class);
+        }
+        catch (Exception e) {
+            System.out.println("Chua chay Product Service.");
+        }
+        //Get Order
+        Order cart = new Order();
+        try {
+            cart = rest.getForObject("http://localhost:8089/api/cart/{customerID}",Order.class, customer.getId());
+        }
+        catch (Exception e) {
+            System.out.println("Chu chay Order Service.");
+        }
+        //Add Product to Cart
+        try {
+            OrderProductRequest request = new OrderProductRequest(cart, product, null);
+            cart = rest.postForObject("http://localhost:8088/api/details/addtocart", request, Order.class );
         }
         catch (Exception e) {
             System.out.println(e);
         }
 
-        return "customer/cart";
+        session.setAttribute("order", cart);
+        return new RedirectView("/cart");
+    }
+
+    @GetMapping ("setQuantity/{action}/{productId}")
+    public RedirectView setQuantity (HttpSession session,
+                                     @PathVariable String action,
+                                     @PathVariable Integer productId)
+    {
+        Customer customer = (Customer) session.getAttribute("customer");
+        Product product = rest.getForObject("http://localhost:8081/product?id=" + productId ,Product.class);
+        Order order = (Order) session.getAttribute("order");
+
+        try {
+            OrderProductRequest request = new OrderProductRequest(order, product, action);
+            Order cart = rest.postForObject("http://localhost:8088/api/details/setQuantity", request, Order.class );
+            session.setAttribute("order", cart);
+        }
+        catch (Exception e) {
+            System.out.println("Chua thuc hien tang giam");
+        }
+
+        return new RedirectView("/cart");
     }
 
     @GetMapping("checkout")

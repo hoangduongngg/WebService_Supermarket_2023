@@ -18,6 +18,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer>{
+    List<Product> findByNameContains(String keyword);
 
     @Query("SELECT p FROM Product p WHERE p.name = :name AND p.idSupplier = :idSupplier")
     Optional<Product> findByNameAndIdSupplied(String name, int idSupplier);

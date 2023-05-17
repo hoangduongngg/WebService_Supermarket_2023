@@ -24,15 +24,15 @@
 <div class="container">
 
     <!-- Cart -->
-    <div>
+    <div th:if="${session.order.details.size()==0}">
+        <h1 class="mt-5">Cart is empty</h1>
     </div>
-    <section class="h-100 h-custom">
+    <section th:if="${session.order.details.size()>0}" class="h-100 h-custom">
         <div class="container h-100 py-5">
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col">
 
 <!--                    <% if (list_od.size() == 0) { %>-->
-<!--                    <h1>Cart is empty</h1>-->
 
 <!--                    <% } %>-->
                     <div class="table-responsive">
@@ -48,7 +48,7 @@
 
 <!--                            <c:forEach items="${list_od}" var = "od">-->
 
-                                <tr th:each="od : ${list_od}">
+                                <tr th:each="od : ${session.order.details}">
                                     <th scope="row">
                                         <a th:href="@{product/{id}(id=${od.getProduct().id})}">
 
@@ -66,7 +66,7 @@
                                     <td class="align-middle">
                                         <div class="d-flex flex-row">
 
-                                            <a href="doIncRecDel.jsp?action=rec&OrderDetailID=${od.id}">
+                                            <a th:href="@{/cart/setQuantity/reduce/{productId}(productId=${od.getProduct().getId()})}">
 
                                                 <button class="btn btn-link px-2"
                                                         onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
@@ -78,10 +78,10 @@
                                             </a>
 
 
-                                            <input id="form1" min="1" name="quantity" th:value="${od.quantity}" type="number"
+                                            <input id="form1" min="1" name="quantity" th:value="${od.quantity}" type="number" readonly
                                                    class="form-control form-control-sm" style="width: 50px;" />
 
-                                            <a href="doIncRecDel.jsp?action=inc&OrderDetailID=${od.id}">
+                                            <a th:href="@{/cart/setQuantity/increase/{productId}(productId=${od.getProduct().getId()})}">
                                                 <button class="btn btn-link px-2"
                                                         onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
@@ -96,7 +96,7 @@
                                     </td>
 
                                     <td class="align-middle">
-                                        <a href="doIncRecDel.jsp?action=del&OrderDetailID=${od.id}">
+                                        <a th:href="@{/cart/setQuantity/delete/{productId}(productId=${od.getProduct().getId()})}">
                                             <button class="btn btn-link px-2"
                                                     onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
                                                 <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16" style="color: red;">
@@ -126,7 +126,7 @@
                                 <div class="col-lg-4 col-xl-3">
                                     <div class="d-flex justify-content-between" style="font-weight: 500;">
                                         <p class="mb-2">Subtotal</p>
-                                        <p class="mb-2"> ${order.totalAmount} $</p>
+                                        <p th:text="${session.order.getTotalOrder()}" class="mb-2"> ${order.totalAmount} $</p>
                                     </div>
 
                                     <div class="d-flex justify-content-between" style="font-weight: 500;">
@@ -138,10 +138,10 @@
 
                                     <div class="d-flex justify-content-between mb-4" style="font-weight: 500;">
                                         <p class="mb-2">Total </p>
-                                        <p class="mb-2">${order.totalAmount} $</p>
+                                        <p th:text="${session.order.getTotalOrder()}" class="mb-2">${order.totalAmount} $</p>
                                     </div>
 
-                                    <a href="doBuy.jsp">
+                                    <a  th:href="@{/order/checkout}">
                                         <button type="button" class="btn btn-primary btn-block btn-lg" style="background-color:#2b6054; color: white;">
                                             <div class="d-flex justify-content-between">
                                                 <span>Checkout now!</span>

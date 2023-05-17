@@ -53,22 +53,20 @@ public class HomeController {
         return new RedirectView(externalUrl);
     }
 
-    @PostMapping("/")
-    public String search_home(HttpSession session, Model model, @RequestParam String txtSearch) {
-        System.out.println(txtSearch);
-        model.addAttribute("txtSearch", txtSearch);
-        
-        
-        
+    @PostMapping ("/")
+    public String search_home (HttpSession session, Model model, @RequestParam String keyword) {
+        System.out.println(keyword);
+        model.addAttribute("keyword", keyword);
         return home_customer(session, model);
     }
 
-    private String home_customer(HttpSession session, Model model) {
-        String url = "http://localhost:8081/products";
+    private String home_customer (HttpSession session, Model model) {
         List<Product> listP = new ArrayList<>();
+
         try {
-            listP = Arrays.asList(rest.getForObject(url, Product[].class));
-        } catch (Exception e) {
+            listP = Arrays.asList(rest.getForObject("http://localhost:8081/products",Product[].class));
+        }
+        catch (Exception e) {
             System.out.println(e);
             Product p = new Product();
             p.setId(1);
@@ -80,6 +78,15 @@ public class HomeController {
             for (int i = 0; i < 10; i++) {
                 listP.add(p);
             }
+        }
+
+        try {
+            String keyword = model.getAttribute("keyword").toString();
+            if (keyword != null) {
+                listP = Arrays.asList(rest.getForObject("http://localhost:8081/search?keyword="+keyword, Product[].class));
+            }
+        }catch (Exception e) {
+            System.out.println(e);
         }
         System.out.println(listP);
 
@@ -108,6 +115,10 @@ public class HomeController {
             System.out.println(e);
         }
         session.setAttribute("customer", customer);
+
+//        Order cart = rest.getForObject("http://localhost:8089/api/cart/{customerID}",Order.class, customer.getId());
+//        session.setAttribute("order", cart);
+
         model.addAttribute("listP", listP);
         return "customer/home";
     }
