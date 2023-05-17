@@ -31,8 +31,10 @@
                     <div th:if="${listP.size()==0}">
                         <h2>There are no products according to search.</h2>
                     </div>
-                        <div class="col-12 col-md-6 col-lg-4 cards" style="width:25%;" th:each="p : ${listP}">
-                            <div class="card" style="margin-bottom: 10px; height: 400px; display: flex; justify-content: space-around">
+                        <div  style="width:25%;"
+                             class="col-12 col-md-6 col-lg-4 cards mb-3" th:each="p : ${listP}">
+                            <div style="margin-bottom: 30px; height: 450px; display: flex; justify-content: space-around"
+                                 class="mb-3 card" >
                                 <img class="card-img-top " th:src="${p.img}" th:href="@{product/{id}(id=${p.id})}">
 
                                 <div class="card-body">

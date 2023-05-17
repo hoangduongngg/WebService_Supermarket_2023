@@ -18,6 +18,8 @@ async function onSignIn(googleUser) {
         errorMessage.style.color = 'red'
         console.log(responseData);
     } else if (response.ok) {
-        window.location.href = 'http://127.0.0.1:8090/product/listProduct'
+        window.location.href = 'http://localhost:8000/'
+        errorMessage.innerHTML = 'Có tìm thấy người dùng'
+
     }
 }
