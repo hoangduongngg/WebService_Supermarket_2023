@@ -113,9 +113,15 @@ public class HomeController {
     }
 
     @GetMapping("/logout")
-    public String logout(HttpSession session) {
+    public RedirectView logout(HttpSession session) {
         session.setAttribute("customer", null);
-        return "account/login";
+        return new RedirectView("/login");
+    }
+
+    @GetMapping("/warehouse")
+    public RedirectView warehouse(HttpSession session) {
+        session.setAttribute("customer", null);
+        return new RedirectView("http://localhost:8099/");
     }
 
 }
