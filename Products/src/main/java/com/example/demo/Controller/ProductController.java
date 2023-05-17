@@ -187,10 +187,13 @@ public class ProductController {
 
     @GetMapping("/search-product")
     @ResponseBody
-    public List<Product> searchProductByName(@RequestParam String keyword,
+    public List<Product> searchProductByName(
             @RequestParam Integer minPrice,
-            @RequestParam Integer maxPrice) {
-
+            @RequestParam Integer maxPrice,
+            @RequestParam String keyword
+                                             ) {
+//        Integer minPrice = 0;
+//        Integer maxPrice = 1000000000;
         if (minPrice < 0) {
             minPrice = 0;
         }
@@ -208,6 +211,11 @@ public class ProductController {
             }
         }
 
+    }
+
+    @GetMapping("search")
+    public List<Product> getByNameContains(@RequestParam(name = "keyword", required = false) String keyword){
+        return keyword == null ? productRepository.findAll() : productRepository.findByNameContains(keyword);
     }
 
 }

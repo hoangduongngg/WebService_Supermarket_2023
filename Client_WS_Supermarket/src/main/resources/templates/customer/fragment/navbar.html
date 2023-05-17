@@ -20,7 +20,7 @@
 
 
         <ul class="navbar-nav ms-auto me-4 my-3 my-lg-0">
-          <li class="nav-item"><a class="nav-link me-lg-3" th:text="Hello + ${session.customer.name}"  >Hello</a></li>
+          <li class="nav-item"><a class="nav-link me-lg-3" th:text="Hello + ${session.customer.name}"  >Hello </a></li>
           <li class="nav-item"><a class="nav-link me-lg-3" th:href="@{/logout}" style="opacity: 50%">Logout</a></li>
         </ul>
 
@@ -31,7 +31,7 @@
         <form th:action="@{/}" method="post" class="form-inline my-2 my-lg-0">
           <!--Search-->
           <div class="input-group input-group-sm">
-            <input  name="txtSearch" type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="Search..." th:value="${txtSearch}">
+            <input  name="keyword" type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="Search..." th:value="${keyword}">
             <div class="input-group-append">
               <button type="submit" class="btn btn-dark btn-number rounded me-3" style="background-color: #2b6054">
                 <!--                                     <i class="fa fa-search"></i>
